@@ -8,12 +8,13 @@ export default function Election() {
     const [elections, setElections] = useState([]);
 
     const getElections = async () => {
-        const result = await axios.get('localhost:8080/elections');
+        const result = await axios.get('http://localhost:8080/elections');
+        console.log(result.data.data)
         setElections(result.data.data);
     }
 
     useEffect(() => {
-        getElections()
+        console.log(getElections())
     }, []);
 
     const columns = React.useMemo(() =>

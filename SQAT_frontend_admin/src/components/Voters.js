@@ -12,8 +12,9 @@ export default function Voters() {
   const [voters, setVoters] = useState([]);
 
   const getVoters = async () => {
-      const result = await axios.get('localhost:8080/voters');
+      const result = await axios.get('http://localhost:8080/voters');
       setVoters(result.data);
+      console.log(result.data);
   }
 
   useEffect(() => {
@@ -25,7 +26,7 @@ export default function Voters() {
     () => [
       {
         Header: "Name",
-        accessor: "fullName",
+        accessor: "name",
       },
       {
         Header: "Section",

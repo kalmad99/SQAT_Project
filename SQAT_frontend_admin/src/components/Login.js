@@ -12,7 +12,7 @@ export default function Login() {
     const navigate = useNavigate();
 
     const login = async (formValues) => {
-        axios.post('localhost:8080/login', formValues)
+        axios.post('/login', formValues)
             .then(function (response) {
                 console.log(response);
             })

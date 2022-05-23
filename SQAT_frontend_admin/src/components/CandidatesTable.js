@@ -159,7 +159,7 @@ export function FullName({name, fname}) {
 }
 
 export function StatusPill({ value }) {
-    const status = value ? value.toLowerCase() : "unknown";
+    const status = value ? value.toString().toLowerCase() : "unknown";
 
     return (
         <span
@@ -195,7 +195,7 @@ export function Lock({ value }) {
 
 export function Detail({ value }) {
     // const result = (value === 1) ? <ImLock /> : <ImUnlocked />;
-    const result = <a href={"https://940a-197-156-86-37.eu.ngrok.io/candidates/" + value} class="text-blue-600 dark:text-blue-500 hover:underline">Details</a>
+    const result = <a href={"http://localhost:8080/candidates/" + value} class="text-blue-600 dark:text-blue-500 hover:underline">Details</a>
 
     return (
         <span>
