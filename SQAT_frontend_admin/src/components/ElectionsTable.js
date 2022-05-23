@@ -51,7 +51,7 @@ const ElectionsTable = ({ columns, data }) => {
                                 </div>
                             </div>
                             <div class="bg-[#00D05A] text-white mt-1 p-3 rounded-xl font-body font-light text-sm">
-                                <button onClick={routeChange}>Add Election</button>
+                                <button name='add-election' onClick={routeChange}>Add Election</button>
                             </div>
                         </div>
                         <div className="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">

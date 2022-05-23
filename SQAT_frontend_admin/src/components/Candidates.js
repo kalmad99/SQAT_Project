@@ -12,7 +12,7 @@ export default function Candidates() {
     const [candidates, setCandidates] = useState([]);
 
     const getCandidates = async () => {
-        const result = await axios.get('localhost:8080/candidates');
+        const result = await axios.get('http://localhost:8080/candidates');
         setCandidates(result.data);
     }
 
@@ -25,7 +25,7 @@ export default function Candidates() {
         [
             {
                 Header: "Name",
-                accessor: "fullName"
+                accessor: "name"
             },
             {
                 Header: "Section",

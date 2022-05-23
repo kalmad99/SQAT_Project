@@ -10,7 +10,7 @@ export default function NewElection() {
     const [isSubmit, setIsSubmit] = useState(false)
 
     const addElection = async (formValues) => {
-        axios.post('localhost:8080/elections', formValues)
+        axios.post('http://localhost:8080/elections', formValues)
             .then(function (response) {
                 console.log(response);
             })
@@ -43,6 +43,7 @@ export default function NewElection() {
         e.preventDefault();
         setFormErrors(validate(formValues))
         setIsSubmit(true)
+        console.log(formValues);
         await addElection(formValues)
         // navigate('/users')
         setFormValues(initialValues)
