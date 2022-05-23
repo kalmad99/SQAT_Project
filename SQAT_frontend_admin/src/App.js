@@ -1,6 +1,7 @@
 import './App.css';
 import Voters from './components/Voters';
 import Candidates from './components/Candidates';
+import CandidateDetail from './components/CandidateDetail';
 import Home from './components/Home';
 import NewElection from './components/NewElection';
 import NewUser from './components/NewUser';
@@ -12,7 +13,7 @@ import {
 } from 'react-router-dom';
 import { AiOutlineMenu } from "react-icons/ai";
 import Election from './components/Elections';
-import Blacklist from './components/Blacklist'
+import Result from './components/Result'
 
 function App() {
   return (
@@ -31,10 +32,11 @@ function App() {
             <Route path="/" exact element={<Home />} />
             <Route path="/voters" element={<Voters />} />
             <Route path="/candidates" element={<Candidates />} />
+            <Route path="/candidateDetail" element={<CandidateDetail />} />
             <Route path="/voters/newuser" element={<NewUser />} />
             <Route path="/elections" element={<Election />} />
             <Route path="/elections/newelection" element={<NewElection />} />
-            <Route path="/blacklist" element={<Blacklist />} />
+            <Route path="/results" element={<Result />} />
           </Routes>
         </div>
       </div>

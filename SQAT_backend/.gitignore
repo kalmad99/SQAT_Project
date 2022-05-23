@@ -62,6 +62,7 @@ web_modules/
 .env
 dbconnection.js
 config.js
+uploads/
 .env.development.local
 .env.test.local
 .env.production.local

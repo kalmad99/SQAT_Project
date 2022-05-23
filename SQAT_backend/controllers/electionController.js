@@ -8,7 +8,13 @@ const cors = require('cors')
 //get all elections
 router.get('/', cors(), async (req, res, next) => {
     try {
-        var elections = await Election.find({});
+        let query = {}
+        if (req.query.query){
+            query.$or = [
+                { "name": { $regex: req.query.query, $options: 'i'}},
+            ]
+        }
+        var elections = await Election.find(query);
         res.json({
             status: 'success',
             code: 200,
@@ -20,6 +26,24 @@ router.get('/', cors(), async (req, res, next) => {
             code: 400,
             message: e,
         });
+    }
+});
+
+// get election detail
+router.get('/:id', cors(), async (req, res, next) => {
+    try {
+        var election = await Election.findById(req.params.id);
+        res.json({
+            status: 'success',
+            code: 200,
+            data: election
+        })
+    } catch (e) {
+        res.json({
+            status: "failed",
+            code: 500,
+            message: "Election doesn't exist!"
+        })
     }
 });
 
@@ -37,6 +61,10 @@ router.post('/', cors(), async function(req, res, next){
         candidates: candidates,
     })
     try{
+        var check = await Election.findOne({ name: req.body.name })
+        if (check) {
+            return res.status(404).send("Election Already Exists!");
+        }
         const newElection = await election.save()
         res.json({
             status: 'success',

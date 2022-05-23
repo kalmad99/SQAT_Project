@@ -8,7 +8,13 @@ const cors = require('cors')
 //get all voters
 router.get('/', cors(), async (req, res, next) => {
     try {
-        var voters = await Voter.find({});
+        let query = {}
+        if (req.query.query){
+            query.$or = [
+                { "name": { $regex: req.query.query, $options: 'i'}},
+            ]
+        }
+        var voters = await Voter.find(query);
         res.json(voters);
     } catch (e) {
         res.json({

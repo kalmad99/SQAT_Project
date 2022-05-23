@@ -5,9 +5,9 @@ import { ChevronDoubleLeftIcon, ChevronLeftIcon, ChevronRightIcon, ChevronDouble
 import { Button, PageButton } from '../shared/Buttons'
 import { classNames } from '../shared/Utils';
 import axios from 'axios'
+import { Link } from 'react-router-dom';
 
 const CandidatesTable = ({ columns, data }) => {
-
     const {
         getTableProps,
         getTableBodyProps,
@@ -36,17 +36,6 @@ const CandidatesTable = ({ columns, data }) => {
             <div className="mt-2 flex flex-col">
                 <div className="-my-2 overflow-x-auto -mx-4 sm:-mx-6 lg:-mx-8">
                     <div className="py-2 align-middle inline-block min-w-full sm:px-4 lg:px-4">
-                        <div class="flex justify-between items-center">
-                            <div class="p-2 pl-0">
-                                <label for="table-search" class="sr-only">Search</label>
-                                <div class="relative mt-1">
-                                    <div class="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none">
-                                        <svg class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"></path></svg>
-                                    </div>
-                                    <input type="text" id="table-search" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-80 pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search..."/>
-                                </div>
-                            </div>
-                        </div>
                         <div className="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
                             <table {...getTableProps()} className="min-w-full divide-y divide-gray-200">
                                 <thead className="bg-gray-50 shadow divide-x divide-gray-200">
@@ -151,21 +140,13 @@ const CandidatesTable = ({ columns, data }) => {
 
 export default CandidatesTable
 
-export function FullName({name, fname}) {
-    const f_name = name + fname
-    return (
-        <span>{f_name}</span>
-    )
-}
-
 export function StatusPill({ value }) {
-    const status = value ? value.toLowerCase() : "unknown";
+    const status = value ? "active" : "disqualified";
 
     return (
         <span
             className={classNames(
                 "py-1 capitalize leading-wide font-bold text-xs rounded-full shadow-sm",
-                status.startsWith("eliminated") ? "bg-red-200 p-2 text-red-700" : null,
                 status.startsWith("active") ? "bg-green-200 p-2 text-green-700" : null,
                 status.startsWith("disqualified") ? "bg-gray-200 p-2 text-gray-700" : null
             )}
@@ -176,14 +157,21 @@ export function StatusPill({ value }) {
 }
 
 export function Lock({ value }) {
-    const [lock, setLock] = useState(value);
+    const [lock, setLock] = useState(true);
+    const [candidate, setCandidate] = useState(null);
 
-    const click = () => {
-        setLock(!lock);
+    const disqualifyCandidate = async () => {
+        const result = await axios.patch('https://4262-197-156-103-53.eu.ngrok.io/candidates', {
+            email: value
+        })
+        setCandidate(result.data)
     }
 
-    const result = lock ? <ImLock /> : <ImUnlocked />;
-
+    const click = () => {
+        disqualifyCandidate()
+    }
+    const result = candidate && candidate.status ? <ImLock /> : <ImUnlocked />;
+    
     return (
         <span>
             <button onClick={() => click()}>
@@ -191,27 +179,21 @@ export function Lock({ value }) {
             </button>
         </span>
     )
+    
+        // useEffect(() => {
+        //     const fetchCandidate = async () => {
+        //         const result = await axios.get('https://4262-197-156-103-53.eu.ngrok.io/candidates/' + candidate._id)
+        //         setLock(result.data.status)
+        //     }
+        //     fetchCandidate()
+        // }, [candidate])
 }
 
 export function Detail({ value }) {
-    // const result = (value === 1) ? <ImLock /> : <ImUnlocked />;
-    const result = <a href={"https://940a-197-156-86-37.eu.ngrok.io/candidates/" + value} class="text-blue-600 dark:text-blue-500 hover:underline">Details</a>
-
+    const result = <Link to="/candidateDetail" state={value} class="text-blue-600 dark:text-blue-500 hover:underline">Details</Link>
     return (
         <span>
             {result}
         </span>
     )
-
-    // console.log((value));
-    // const result = <a href="https://www.pluralsight.com/guides/how-to-render-%22a%22-with-optional-href-in-react" class="text-blue-600 dark:text-blue-500 hover:underline">Details</a>
-    // return (
-    //     <span>
-    //         {result}
-    //         print(result);
-    //     </span>
-
-    //     // <a href="https://www.pluralsight.com/guides/how-to-render-%22a%22-with-optional-href-in-react" onClick={onClick} class="text-blue-600 dark:text-blue-500 hover:underline">Details</a>
-
-    // )
 }

@@ -4,10 +4,10 @@ const router = express.Router()
 const Result = require('../models/result')
 const cors = require('cors')
 //get election result
-router.get('/:name', cors(), async (req, res, next) => {
+router.get('/:id', cors(), async (req, res, next) => {
     try {
-        const election = await Election.findOne({name: req.params.name})
-        console.log(election)
+        const sort = { voteCount: 1, name: 1 };
+        const election = await Election.findOne({_id: req.params.id}).sort(sort)
         var results = [];
         for (var i = 0; i < election.candidates.length; i++) {
             var result = {

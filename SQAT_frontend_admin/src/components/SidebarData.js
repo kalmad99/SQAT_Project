@@ -27,8 +27,8 @@ export const SidebarData = [
         link: "/candidates" 
     },
     {
-        title: 'Blacklist',
+        title: 'Result',
         icon: <FaUserLock/>,
-        link: "/blacklist" 
+        link: "/results" 
     },
 ]

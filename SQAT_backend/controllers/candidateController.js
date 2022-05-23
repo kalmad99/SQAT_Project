@@ -1,6 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const Candidate = require('../models/candidate')
+const Voter = require('../models/voter')
 const User = require('../models/user')
 const upload = require('../middleware/upload')
 const bcrypt = require('bcryptjs')
@@ -9,7 +10,13 @@ const cors = require('cors')
 //get all candidates
 router.get('/', cors(), async (req, res, next) => {
     try {
-        var candidates = await Candidate.find({});
+        let query = {}
+        if (req.query.query){
+            query.$or = [
+                { "name": { $regex: req.query.query, $options: 'i'}},
+            ]
+        }
+        var candidates = await Candidate.find(query);
         res.json(candidates);
     } catch (e) {
         res.json({
@@ -20,8 +27,7 @@ router.get('/', cors(), async (req, res, next) => {
     }
 });
 
-
-//get candidate detail
+// get candidate detail
 router.get('/:id', cors(), async (req, res, next) => {
     try {
         var candidate = await Candidate.findById(req.params.id);
@@ -40,6 +46,19 @@ router.get('/:id', cors(), async (req, res, next) => {
     }
 });
 
+router.patch('/', cors(), async function(req, res, next){
+    const candidate = await Candidate.findOne({email: req.body.email})
+    try{
+        const updatedCandidate = await Candidate.findByIdAndUpdate(candidate._id, {
+            status: !candidate.status
+        })
+        console.log(updatedCandidate)
+        res.send(updatedCandidate)
+    } catch(error){
+        res.status(400).json({message: err.message});
+    }
+})
+
 //add new candidate
 router.post('/', cors(), upload.single('profile'), async function(req, res, next){
     const candidate = new Candidate({
@@ -56,19 +75,20 @@ router.post('/', cors(), upload.single('profile'), async function(req, res, next
         bio: req.body.bio,
     })
     if(req.file){
-        candidate.profile = req.file.path
+        candidate.profile = req.file.path.substring(8)
     } 
     try{
-        const check = await User.findOne({ email: req.body.email })
-        if (!check) {
+        var check = await User.findOne({ email: req.body.email })
+        console.log(check, req.body.email)
+        if (check) {
             return res.status(404).send("User Already Exists!");
         }
         check = await Candidate.findOne({ id: req.body.id })
-        if (!check) {
+        if (check) {
             return res.status(404).send("User Already Exists!");
         }
         check = await Voter.findOne({ id: req.body.id })
-        if (!check) {
+        if (check) {
             return res.status(404).send("User Already Exists!");
         }
         
