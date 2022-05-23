@@ -4,7 +4,9 @@ const Voter = require('../models/voter')
 const Candidate = require('../models/candidate')
 const User = require('../models/user')
 const bcrypt = require('bcryptjs')
-const cors = require('cors')
+var cors = require('cors')
+
+
 //get all voters
 router.get('/', cors(), async (req, res, next) => {
     try {
@@ -34,16 +36,16 @@ router.post('/', cors(), async function(req, res, next){
         wallet: req.body.wallet
     })
     try{
-        const check = await User.findOne({ email: req.body.email })
-        if (!check) {
+        var check = await User.findOne({ email: req.body.email })
+        if (check) {
             return res.status(404).send("User Already Exists!");
         }
         check = await Voter.findOne({ id: req.body.id })
-        if (!check) {
+        if (check) {
             return res.status(404).send("User Already Exists!");
         }
         check = await Candidate.findOne({ id: req.body.id })
-        if (!check) {
+        if (check) {
             return res.status(404).send("User Already Exists!");
         }
         const newVoter = await voter.save()

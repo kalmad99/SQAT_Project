@@ -2,9 +2,11 @@ const express = require('express');
 const Election = require('../models/election');
 const router = express.Router()
 const Result = require('../models/result')
-const cors = require('cors')
+var cors = require('cors')
+
+
 //get election result
-router.get('/:name', cors(), async (req, res, next) => {
+router.get('/:name', async (req, res, next) => {
     try {
         const election = await Election.findOne({name: req.params.name})
         console.log(election)

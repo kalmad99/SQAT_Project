@@ -1,10 +1,12 @@
 const express = require('express')
 const router = express.Router()
 const Candidate = require('../models/candidate')
+const Voter = require('../models/voter')
 const User = require('../models/user')
 const upload = require('../middleware/upload')
 const bcrypt = require('bcryptjs')
-const cors = require('cors')
+var cors = require('cors')
+
 
 //get all candidates
 router.get('/', cors(), async (req, res, next) => {
@@ -59,16 +61,16 @@ router.post('/', cors(), upload.single('profile'), async function(req, res, next
         candidate.profile = req.file.path
     } 
     try{
-        const check = await User.findOne({ email: req.body.email })
-        if (!check) {
+        var check = await User.findOne({ email: req.body.email })
+        if (check) {
             return res.status(404).send("User Already Exists!");
         }
         check = await Candidate.findOne({ id: req.body.id })
-        if (!check) {
+        if (check) {
             return res.status(404).send("User Already Exists!");
         }
         check = await Voter.findOne({ id: req.body.id })
-        if (!check) {
+        if (check) {
             return res.status(404).send("User Already Exists!");
         }
         

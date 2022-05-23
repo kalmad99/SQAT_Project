@@ -5,7 +5,8 @@ const User = require('../models/user')
 const jwt = require('jsonwebtoken')
 const config = require('../config')
 const bcrypt = require('bcryptjs')
-const cors = require('cors')
+var cors = require('cors')
+
 
 // Login router
 router.post('/', cors(), async (req, res) => {
@@ -33,7 +34,7 @@ router.post('/', cors(), async (req, res) => {
 
 // Logout router
 
-router.get('/logout', cors(), function (req, res) {
+router.get('/logout', function (req, res) {
     res.status(200).send({ auth: false, token: null });
 
 });
