@@ -13,8 +13,8 @@ export default function Voters() {
 
   const getVoters = async () => {
       const result = await axios.get('http://localhost:8080/voters');
-      setVoters(result.data);
-      console.log(result.data);
+      setVoters(result.data.data);
+      console.log(result.data.data);
   }
 
   useEffect(() => {
