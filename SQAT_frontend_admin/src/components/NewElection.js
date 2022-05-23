@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
+import { useNavigate } from 'react-router-dom'
 
 export default function NewElection() {
+    const navigate = useNavigate
+
     const initialValues = {
         dept: "", section: "", batch: "",
     }
@@ -10,7 +13,7 @@ export default function NewElection() {
     const [isSubmit, setIsSubmit] = useState(false)
 
     const addElection = async (formValues) => {
-        axios.post('http://localhost:8080/elections', formValues)
+        axios.post('https://aafd-197-156-86-67.eu.ngrok.io/elections', formValues)
             .then(function (response) {
                 console.log(response);
             })
@@ -43,11 +46,9 @@ export default function NewElection() {
         e.preventDefault();
         setFormErrors(validate(formValues))
         setIsSubmit(true)
-        console.log(formValues);
         await addElection(formValues)
-        // navigate('/users')
+        navigate('/elections')
         setFormValues(initialValues)
-        // await addUser(user);
     }
     useEffect(() => {
         if (Object.keys(formErrors).length === 0 && isSubmit) {

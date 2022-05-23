@@ -1,13 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 // import { SpinnerCircularFixed } from "spinners-react";
-// import StudentContract from "../contracts/AAiTStudent.json";
-// import { useMoralis, useWeb3ExecuteFunction } from "react-moralis";
-// import { useNavigate } from 'react-router';
+import { useNavigate } from 'react-router';
 
 export default function NewUser() {
-    // const { isInitialized, isWeb3Enabled, account, enableWeb3, Moralis } = useMoralis();
-    // const navigate = useNavigate();
+    const navigate = useNavigate();
 
     const initialValues = {
         name: "", fname: "", gname: "",
@@ -23,7 +20,7 @@ export default function NewUser() {
     const addUser = async (formValues) => {
         if (candidate) {
             // axios.post('http://localhost:8080/candidates', formValues)
-            axios.post('http://localhost:8080/candidates', formValues)
+            axios.post('https://aafd-197-156-86-67.eu.ngrok.io/candidates', formValues)
                 .then(function (response) {
                     console.log(response);
                 })
@@ -32,7 +29,7 @@ export default function NewUser() {
                 });
         } else {
             // axios.post('http://localhost:8080/voters', {
-                axios.post('http://localhost:8080/voters', {
+                axios.post('https://aafd-197-156-86-67.eu.ngrok.io:8080/voters', {
                 name: formValues.name,
                 fname: formValues.fname,
                 gname: formValues.gname,
@@ -77,7 +74,7 @@ export default function NewUser() {
         setFormErrors(validate(formValues))
         setIsSubmit(true)
         await addUser(formValues)
-        // navigate('/users')
+        navigate('/users')
         setFormValues(initialValues)
         // await addUser(user);
     }

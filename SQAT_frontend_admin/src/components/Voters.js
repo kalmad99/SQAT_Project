@@ -21,7 +21,7 @@ export default function Voters() {
 
   useEffect(() => {
     const getVoters = async () => {
-      const result = await axios.get('https://4262-197-156-103-53.eu.ngrok.io/voters?query=' + searchQuery);
+      const result = await axios.get('https://aafd-197-156-86-67.eu.ngrok.io/voters?query=' + searchQuery);
       setVoters(result.data);
     }
     getVoters()

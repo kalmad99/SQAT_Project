@@ -59,11 +59,6 @@ const candidateSchema = new mongoose.Schema({
         type: Boolean,
         require: true,
         default: true
-    },
-    lock: {
-        type: Boolean,
-        require: true,
-        default: true
     }
 })
 

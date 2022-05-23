@@ -7,7 +7,7 @@ import { classNames } from '../shared/Utils';
 import axios from 'axios'
 import { Link } from 'react-router-dom';
 
-const CandidatesTable = ({ columns, data }) => {
+const CandidatesTable = ({ columns, data, disqualify }) => {
     const {
         getTableProps,
         getTableBodyProps,
@@ -25,6 +25,7 @@ const CandidatesTable = ({ columns, data }) => {
     } = useTable({
         columns,
         data,
+        disqualify,
         initialState: { pageIndex: 0, pageSize: 5 }
     },
         useSortBy,
@@ -156,22 +157,37 @@ export function StatusPill({ value }) {
     );
 }
 
-export function Lock({ value }) {
-    const [lock, setLock] = useState(true);
-    const [candidate, setCandidate] = useState(null);
+export function Lock({ value, data, disqualify }) {
+    var lockvalue; 
+    for (var i = 0; i < data.length; i++) {
+        if (value === data[i].email){
+            lockvalue = data[i].status
+            break
+        }
+    }
 
+    const [lock, setLock] = useState(lockvalue);
+    
     const disqualifyCandidate = async () => {
-        const result = await axios.patch('https://4262-197-156-103-53.eu.ngrok.io/candidates', {
+        await axios.patch('https://aafd-197-156-86-67.eu.ngrok.io/candidates', {
             email: value
         })
-        setCandidate(result.data)
     }
 
     const click = () => {
+        const editedTaskList = data.map(candidate => {
+            if (value === candidate.email) {
+                console.log(value, candidate.email)
+                setLock(!candidate.status)
+                return { ...candidate, status: !candidate.status }
+            }
+            return candidate;
+        });
+        disqualify(editedTaskList)
         disqualifyCandidate()
     }
-    const result = candidate && candidate.status ? <ImLock /> : <ImUnlocked />;
-    
+    const result = lock && lock ? <ImUnlocked /> : <ImLock />;
+
     return (
         <span>
             <button onClick={() => click()}>
@@ -179,14 +195,6 @@ export function Lock({ value }) {
             </button>
         </span>
     )
-    
-        // useEffect(() => {
-        //     const fetchCandidate = async () => {
-        //         const result = await axios.get('https://4262-197-156-103-53.eu.ngrok.io/candidates/' + candidate._id)
-        //         setLock(result.data.status)
-        //     }
-        //     fetchCandidate()
-        // }, [candidate])
 }
 
 export function Detail({ value }) {
