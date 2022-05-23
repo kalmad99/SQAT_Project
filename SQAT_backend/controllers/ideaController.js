@@ -1,9 +1,10 @@
 const express = require('express')
 const router = express.Router()
 const Idea = require('../models/idea')
-const cors = require('cors')
+var cors = require('cors')
 
-router.get('/', cors(), async function(req, res){
+
+router.get('/', async function(req, res){
     try{
         const ideas = await Idea.find().lean();
         const response = ideas.map(idea => {
