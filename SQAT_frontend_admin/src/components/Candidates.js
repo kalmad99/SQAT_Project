@@ -19,7 +19,7 @@ export default function Candidates() {
 
     useEffect(() => {
         const getCandidates = async () => {
-            const result = await axios.get('https://4262-197-156-103-53.eu.ngrok.io/candidates?query='+searchQuery);
+            const result = await axios.get('https://aafd-197-156-86-67.eu.ngrok.io/candidates?query='+searchQuery);
             setCandidates(result.data);
         }
         getCandidates()
@@ -51,7 +51,7 @@ export default function Candidates() {
             },
             {
                 Header: "",
-                accessor: "lock",
+                accessor: "email",
                 Cell: Lock,
             },
             {
@@ -97,7 +97,7 @@ export default function Candidates() {
                     </div>
                 </div>
 
-                <CandidatesTable columns={columns} data={candidates} />
+                <CandidatesTable columns={columns} data={candidates} disqualify={setCandidates}/>
             </div>
         </div >
     )
