@@ -2,7 +2,9 @@ const express = require('express');
 const Election = require('../models/election');
 const router = express.Router()
 const Result = require('../models/result')
-const cors = require('cors')
+var cors = require('cors')
+
+
 //get election result
 router.get('/:id', cors(), async (req, res, next) => {
     try {

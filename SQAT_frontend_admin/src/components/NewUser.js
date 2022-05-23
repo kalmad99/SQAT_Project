@@ -22,7 +22,8 @@ export default function NewUser() {
 
     const addUser = async (formValues) => {
         if (candidate) {
-            axios.post('localhost:8080/candidates', formValues)
+            // axios.post('http://localhost:8080/candidates', formValues)
+            axios.post('http://localhost:8080/candidates', formValues)
                 .then(function (response) {
                     console.log(response);
                 })
@@ -30,7 +31,8 @@ export default function NewUser() {
                     console.log(error);
                 });
         } else {
-            axios.post('https://940a-197-156-86-37.eu.ngrok.io/voters', {
+            // axios.post('http://localhost:8080/voters', {
+                axios.post('http://localhost:8080/voters', {
                 name: formValues.name,
                 fname: formValues.fname,
                 gname: formValues.gname,
@@ -123,11 +125,11 @@ export default function NewUser() {
         } else if (!idRegex.test(values.id)) {
             errors.id = "Invalid ID Format (eg. ATR/1234/09)"
         }
-        if (!values.email) {
-            errors.email = "Email is a Required Field"
-        } else if (!emailRegex.test(values.email)) {
-            errors.email = "Invalid Email Address"
-        }
+        // if (!values.email) {
+        //     errors.email = "Email is a Required Field"
+        // } else if (!emailRegex.test(values.email)) {
+        //     errors.email = "Invalid Email Address"
+        // }
         if (values.wallet && !walletRegex.test(values.wallet)) {
             errors.wallet = "Invalid Wallet Address (0x followed by 40 hexadecimal characters)"
         }
