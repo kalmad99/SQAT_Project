@@ -13,7 +13,8 @@ export default function Candidates() {
 
     const getCandidates = async () => {
         const result = await axios.get('http://localhost:8080/candidates');
-        setCandidates(result.data);
+        setCandidates(result.data.data);
+        console.log(result.data.data);
     }
 
     useEffect(() => {
