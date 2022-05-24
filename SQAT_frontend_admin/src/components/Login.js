@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router';
 import { axios } from 'axios'
+import { login } from '../api/auth';
 
 export default function Login() {
     const initialValues = { email: "", password: "" }
@@ -24,10 +25,10 @@ export default function Login() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         setFormErrors(validate(formValues))
-        await login(formValues)
+        await login(formValues.email, formValues.password)
         setIsSubmit(true)
         setFormValues(initialValues)
-        // navigate('/users')
+        navigate('/')
     }
 
     const changeHandler = (event) => {
@@ -37,7 +38,7 @@ export default function Login() {
 
     const validate = (values) => {
         const errors = {}
-        const emailRegex = new RegExp('/\S+@\S+\.\S+/')
+        const emailRegex = new RegExp('^[A-Za-z0-9]{1,64}@(.+)$')
 
         if (!values.email) {
             errors.email = "Email is a Required Field"

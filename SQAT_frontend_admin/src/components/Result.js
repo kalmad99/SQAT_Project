@@ -10,6 +10,7 @@ export default function Result() {
     const [election, setElection] = useState(null);
     const [candidates, setCandidates] = useState([]);
     const [isLoading, setIsLoading] = useState(true)
+    const [hasError, setHasError] = useState(false)
 
     let navigate = useNavigate();
 
@@ -19,10 +20,14 @@ export default function Result() {
 
     useEffect(() => {
         const getElectionDetail = async () => {
-            const elect = await axios.get('https://aafd-197-156-86-67.eu.ngrok.io/elections/' + electionId);
-            setElection(elect.data.data)
-            const result = await axios.get('https://aafd-197-156-86-67.eu.ngrok.io/results/' + electionId);
-            setCandidates(result.data.data);
+            try{
+                const elect = await axios.get('https://aafd-197-156-86-67.eu.ngrok.io/elections/' + electionId);
+                setElection(elect.data.data)
+                const result = await axios.get('https://aafd-197-156-86-67.eu.ngrok.io/results/' + electionId);
+                setCandidates(result.data.data);
+            } catch (error){
+                setHasError(true)
+            }
             setIsLoading(false)
         }
         getElectionDetail()
