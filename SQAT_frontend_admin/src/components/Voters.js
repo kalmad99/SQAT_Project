@@ -16,6 +16,16 @@ export default function Voters() {
     setSearchQuery("");
   };
 
+  
+  const getSearchQuery = (e) => {
+    if (e.target.value === "") {
+      setIsSearching(true);
+    } else {
+      setIsSearching(false);
+    }
+    setSearchQuery(e.target.value);
+  };
+
   const deptTypes = [
     "Biomedical Engineering",
     "Chemical Engineering",
@@ -25,14 +35,6 @@ export default function Voters() {
     "Software Engineering",
   ];
 
-  const getSearchQuery = (e) => {
-    if (e.target.value === "") {
-      setIsSearching(true);
-    } else {
-      setIsSearching(false);
-    }
-    setSearchQuery(e.target.value);
-  };
 
   useEffect(() => {
     const getVoters = async () => {
