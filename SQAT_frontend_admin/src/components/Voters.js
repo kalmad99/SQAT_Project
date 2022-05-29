@@ -18,7 +18,7 @@ export default function Voters() {
   useEffect(() => {
     const getVoters = async () => {
       try {
-        const result = await axios.get('https://aafd-197-156-86-67.eu.ngrok.io/voters?query=' + searchQuery);
+        const result = await axios.get('https://e909-197-156-118-253.eu.ngrok.io/voters?query=' + searchQuery);
         setVoters(result.data);
       } catch (error) {
         setHasError(true);
@@ -80,7 +80,7 @@ export default function Voters() {
           <h2>{hasError.message}</h2>
         </div>
       )}
-      {voters && (
+      {!isLoading && voters && (
         <div class="w-full py-4 px-4 lg:px-8 rounded-2xl bg-white-700">
           <div class="flex justify-between items-center">
             <div class="p-2 pl-0">

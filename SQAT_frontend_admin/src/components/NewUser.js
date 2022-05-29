@@ -19,17 +19,16 @@ export default function NewUser() {
 
     const addUser = async (formValues) => {
         if (candidate) {
-            // axios.post('http://localhost:8080/candidates', formValues)
-            axios.post('https://aafd-197-156-86-67.eu.ngrok.io/candidates', formValues)
+            axios.post('https://e909-197-156-118-253.eu.ngrok.io/candidates', formValues)
                 .then(function (response) {
                     console.log(response);
                 })
                 .catch(function (error) {
-                    console.log(error);
+                    formErrors.user = error
+                    // console.log(error);
                 });
         } else {
-            // axios.post('http://localhost:8080/voters', {
-                axios.post('https://aafd-197-156-86-67.eu.ngrok.io:8080/voters', {
+                axios.post('https://e909-197-156-118-253.eu.ngrok.io/voters', {
                 name: formValues.name,
                 fname: formValues.fname,
                 gname: formValues.gname,

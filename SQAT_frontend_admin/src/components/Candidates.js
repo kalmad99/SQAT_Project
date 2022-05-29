@@ -17,7 +17,7 @@ export default function Candidates() {
     useEffect(() => {
         const getCandidates = async () => {
             try {
-                const result = await axios.get('https://aafd-197-156-86-67.eu.ngrok.io/candidates?query=' + searchQuery);
+                const result = await axios.get('https://e909-197-156-118-253.eu.ngrok.io/candidates?query=' + searchQuery);
                 setCandidates(result.data);
             } catch (error) {
                 setHasError(true);
@@ -83,7 +83,7 @@ export default function Candidates() {
                     <h2>{hasError.message}</h2>
                 </div>
             )}
-            {candidates && (
+            {!isLoading && candidates && (
                 < div class="w-full py-4 px-4 lg:px-8 rounded-2xl bg-white-700">
                     <div class="flex justify-start items-center">
                         <div class="p-2 pl-0">

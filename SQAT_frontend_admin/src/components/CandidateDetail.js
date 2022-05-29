@@ -17,7 +17,7 @@ export default function CandidateDetail() {
     
     useEffect(() => {
         const getCandidateDetail = async () => {
-            const result = await axios.get('https://4262-197-156-103-53.eu.ngrok.io/candidates/' + candidateId);
+            const result = await axios.get('https://e909-197-156-118-253.eu.ngrok.io/candidates/' + candidateId);
             setCandidate(result.data.data);
         }
         getCandidateDetail()
