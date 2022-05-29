@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+const auth = require('../middleware/auth');
 const Election = require("../models/election");
 const Voter = require("../models/voter");
 const Candidate = require("../models/candidate");
@@ -14,7 +15,7 @@ const deptTypes = [
   "Mechanical Engineering",
 ];
 //get all elections
-router.get('/', cors(), async (req, res, next) => {
+router.get('/', async (req, res, next) => {
   try {
     let query = {}
     if (req.query.query) {
@@ -38,7 +39,7 @@ router.get('/', cors(), async (req, res, next) => {
 });
 
 // get election detail
-router.get('/:id', cors(), async (req, res, next) => {
+router.get('/:id', async (req, res, next) => {
   try {
     var election = await Election.findById(req.params.id);
     res.json({
@@ -56,7 +57,7 @@ router.get('/:id', cors(), async (req, res, next) => {
 });
 
 //add new election
-router.post("/", cors(), async function (req, res, next) {
+router.post("/", async function (req, res, next) {
   const voters = await Voter.find({
     dept: req.body.dept-1,
     year: req.body.batch,

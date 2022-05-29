@@ -6,7 +6,7 @@ import { loggedin_user } from "./loggedinuser";
 
 const PrivateRoute = ({ location, children }) => {
     const auth_user = loggedin_user()
-    console.log(auth_user)
+    // console.log(auth_user)
 
 
     // if the user is not logged in then the router navigate or redirect to login page
