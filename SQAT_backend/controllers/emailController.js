@@ -11,7 +11,7 @@ const transport = nodemailer.createTransport({
     },
 });
 
-const URL = 'https://e909-197-156-118-253.eu.ngrok.io/login/'
+const URL = 'http://localhost:8080/login/'
 
 const send_magic_link = async (email, link) => {
     var subj = "Your sign in link",

@@ -8,6 +8,24 @@ import axios from 'axios'
 import { Link } from 'react-router-dom';
 
 const CandidatesTable = ({ columns, data, disqualify }) => {
+    const extractCandidates = () => {
+        var candidatesData = [];
+        if (data && data.length > 0) {
+          for (var i = 0; i < data.length; i++) {
+            var voter = {
+              fullName: `${data[i].name} ${data[i].fname} ${data[i].gname}`,
+              section: data[i].section,
+              year: data[i].year,
+              dept: deptTypes[data[i].dept],
+              status: data[i].status,
+              email: data[i].email,
+              _id: data[i]._id,
+            };
+            candidatesData.push(voter);
+          }
+        }
+        return candidatesData;
+      };
     const {
         getTableProps,
         getTableBodyProps,
@@ -31,6 +49,17 @@ const CandidatesTable = ({ columns, data, disqualify }) => {
         useSortBy,
         usePagination
     );
+    const deptTypes = [
+        "Biomedical Engineering",
+        "Chemical Engineering",
+        "Civil Engineering",
+        "Electrical Engineering",
+        "Mechanical Engineering",
+        "Software Engineering",
+      ];
+
+    // console.log("zdata",data);
+   
 
     return (
         <div>
@@ -169,7 +198,7 @@ export function Lock({ value, data, disqualify }) {
     const [lock, setLock] = useState(lockvalue);
     
     const disqualifyCandidate = async () => {
-        await axios.patch('https://aafd-197-156-86-67.eu.ngrok.io/candidates', {
+        await axios.patch('http://localhost:8080/candidates', {
             email: value
         })
     }
@@ -183,6 +212,7 @@ export function Lock({ value, data, disqualify }) {
             }
             return candidate;
         });
+        console.log("edited",editedTaskList);
         disqualify(editedTaskList)
         disqualifyCandidate()
     }

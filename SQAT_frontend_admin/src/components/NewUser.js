@@ -19,7 +19,7 @@ export default function NewUser() {
 
     const addUser = async (formValues) => {
         if (candidate) {
-            axios.post('https://e909-197-156-118-253.eu.ngrok.io/candidates', formValues)
+            axios.post('http://localhost:8080/candidates', formValues)
                 .then(function (response) {
                     console.log(response);
                 })
@@ -28,7 +28,7 @@ export default function NewUser() {
                     // console.log(error);
                 });
         } else {
-                axios.post('https://e909-197-156-118-253.eu.ngrok.io/voters', {
+                axios.post('http://localhost:8080/voters', {
                 name: formValues.name,
                 fname: formValues.fname,
                 gname: formValues.gname,

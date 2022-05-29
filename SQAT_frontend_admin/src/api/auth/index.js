@@ -14,7 +14,7 @@ export const login = async (email, password) => {
 
 // export const sendEmail = async (email) => {
 //     try {
-//         const { data: result } = await axios.post("https://e909-197-156-118-253.eu.ngrok.io/login", { email })
+//         const { data: result } = await axios.post("http://localhost:8080/login", { email })
 //         localStorage.setItem("token", result.token)
 //         return result;
 //     } catch (error) {

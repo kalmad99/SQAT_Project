@@ -15,10 +15,20 @@ export default function Voters() {
     setSearchQuery("")
   }
 
+  const deptTypes = [
+    "Biomedical Engineering",
+    "Chemical Engineering",
+    "Civil Engineering",
+    "Electrical Engineering",
+    "Mechanical Engineering",
+    "Software Engineering",
+  ];
+
+
   useEffect(() => {
     const getVoters = async () => {
       try {
-        const result = await axios.get('https://e909-197-156-118-253.eu.ngrok.io/voters?query=' + searchQuery);
+        const result = await axios.get('http://localhost:8080/voters?query=' + searchQuery);
         setVoters(result.data);
       } catch (error) {
         setHasError(true);
@@ -28,6 +38,23 @@ export default function Voters() {
     getVoters()
   }, [searchQuery]);
 
+  const extractVoters = (data) => {
+    var voterData = [];
+    if (data && data.length > 0) {
+      for (var i = 0; i < data.length; i++) {
+        var voter = {
+          fullName: `${data[i].name} ${data[i].fname} ${data[i].gname}`,
+          section: data[i].section,
+          year: data[i].year,
+          dept: deptTypes[data[i].dept],
+          id: data[i].id,
+          details: data[i]._id,
+        };
+        voterData.push(voter);
+      }
+    }
+    return voterData;
+  };
 
   const columns = React.useMemo(
     () => [
@@ -100,7 +127,7 @@ export default function Voters() {
               <button onClick={routeChange}>Add User</button>
             </div>
           </div>
-          <UsersTable columns={columns} data={voters} />
+          <UsersTable columns={columns} data={extractVoters(voters)} />
         </div>
       )}
     </div>

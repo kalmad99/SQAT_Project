@@ -18,7 +18,7 @@ export default function Election() {
     useEffect(() => {
         const getElections = async () => {
             try {
-                const result = await axios.get('https://e909-197-156-118-253.eu.ngrok.io/elections?query=' + searchQuery)
+                const result = await axios.get('http://localhost:8080/elections?query=' + searchQuery)
                 setElections(result.data.data);
             } catch (error) {
                 setHasError(true);
