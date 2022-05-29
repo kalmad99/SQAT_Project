@@ -11,6 +11,7 @@ import {
   BrowserRouter as Router,
   Routes,
   Route,
+  Navigate
 } from 'react-router-dom';
 import { AiOutlineMenu } from "react-icons/ai";
 import Election from './components/Elections';
@@ -31,17 +32,6 @@ function App() {
         </div>
         <div class="flex-1 h-screen md:overflow-y-auto">
           <Routes>
-            <Route path="/" element={
-              <PrivateRoute >
-                <Home />
-              </PrivateRoute>}
-            />
-            <Route path="/candidates" element={
-              <PrivateRoute >
-                <Candidates />
-              </PrivateRoute>
-            }
-            />
             <Route path="/" exact element={<Home />} />
             <Route path="/voters" element={<Voters />} />
             <Route path="/candidates" element={<Candidates />} />
@@ -51,6 +41,10 @@ function App() {
             <Route path="/elections/newelection" element={<NewElection />} />
             <Route path="/results" element={<Result />} />
             <Route path="/auth/admin-login" element={<Login />} />
+            <Route
+              path="*"
+              element={<Navigate to="/" replace />}
+            />
           </Routes>
         </div>
       </div>

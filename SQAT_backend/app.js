@@ -1,6 +1,6 @@
 const express = require('express')
-const cors = require('cors')
 const app = express();
+const cors = require('cors')
 
 app.use(cors());
 app.use(express.json());
@@ -14,6 +14,7 @@ const candidateRouter = require('./controllers/candidateController');
 const electionRouter = require('./controllers/electionController');
 const resultRouter = require('./controllers/resultController')
 
+// app.use('/auth', authRouter)
 app.use('/login', authRouter)
 // app.use('/ideas', ideaRouter)
 app.use('/voters', voterRouter)
