@@ -7,7 +7,7 @@ const bcrypt = require("bcryptjs");
 var cors = require("cors");
 
 //get all voters
-router.get('/', cors(), async (req, res, next) => {
+router.get('/', async (req, res, next) => {
     try {
         let query = {}
         if (req.query.query){
@@ -27,7 +27,7 @@ router.get('/', cors(), async (req, res, next) => {
 });
 
 //add new voter
-router.post("/", cors(), async function (req, res, next) {
+router.post("/", async function (req, res, next) {
   const voter = new Voter({
     name: req.body.name,
     fname: req.body.fname,
@@ -70,6 +70,25 @@ router.post("/", cors(), async function (req, res, next) {
     });
   } catch (err) {
     res.status(400).json({ message: err.message });
+  }
+});
+
+// get voter detail
+router.get('/:id', async (req, res, next) => {
+  try {
+      var voter = await Voter.findOne({_id: req.params.id});
+      res.json({
+          status: 'success',
+          code: 200,
+          data: voter
+      })
+
+  } catch (e) {
+      res.json({
+          status: "failed",
+          code: 500,
+          message: "Voter doesn't exist!"
+      })
   }
 });
 module.exports = router;

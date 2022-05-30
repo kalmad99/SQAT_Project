@@ -3,10 +3,11 @@ import { Avatar, Box, Button, Card, Grid, Typography } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core';
 import CandidatesList from '../components/candidatesList'
 import Countdown from '../components/countdown';
-import axios from 'axios'
+import axios, { getToken } from '../Api/axiosConfig'
 
 function VotePage() {
     const classes = useStyles()
+    const token = getToken()
     const [isLoading, setIsLoading] = useState(true)
     const [hasError, setHasError] = useState(false)
     const [candidates, setCandidates] = useState([]);
@@ -14,7 +15,11 @@ function VotePage() {
     useEffect(() => {
         const getCandidates = async () => {
             try {
-                const result = await axios.get('https://e909-197-156-118-253.eu.ngrok.io/candidates');
+                const result = await axios.get('/candidates', {
+                    headers: {
+                        Authorization: 'Bearer ' +  token  //the token is a variable which holds the token
+                    }
+                });
                 setCandidates(result.data);
             } catch (error) {
                 setHasError(true);

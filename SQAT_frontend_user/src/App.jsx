@@ -3,8 +3,6 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import React from "react";
 import HomeScreen from "./pages/HomeScreen";
-import Idea from "./components/IdeaDetails";
-
 import Login from "./pages/Login";
 import Navbar from "./components/Navbar";
 import VotingUnderway from "./pages/VotingUnderway";
@@ -46,12 +44,6 @@ function App() {
           <PrivateRoute>
             <Navbar />
             <VotingUnderway />
-          </PrivateRoute>
-        } />
-        <Route path="/auth/idea" element={
-          <PrivateRoute>
-            <Navbar />
-            <Idea />
           </PrivateRoute>
         } />
         <Route path="/auth/ideas" element={

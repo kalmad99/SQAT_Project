@@ -4,23 +4,30 @@ import IdeaDetails from '../components/IdeaDetails'
 import SearchBar from '../components/searchBar';
 import FilterComponent from '../components/filterComponent';
 import Suggestion from '../components/suggestion';
-import axios from 'axios'
+import axios, { getToken } from '../Api/axiosConfig'
 
 function Ideas() {
+    const token = getToken()
     const [isLoading, setIsLoading] = useState(true)
     const [ideas, setIdeas] = useState([]);
     const [hasError, setHasError] = useState(false)
 
-    useEffect(() => {
-        const getIdeas = async () => {
-            try {
-                const result = await axios.get('https://e909-197-156-118-253.eu.ngrok.io/ideas');
-                setIdeas(result.data);
-            } catch (error) {
-                setHasError(true);
-            }
-            setIsLoading(false)
+    const getIdeas = async () => {
+        try {
+            const result = await axios.get('/ideas', {
+                headers: {
+                    Authorization: 'Bearer ' +  token  //the token is a variable which holds the token
+                }
+            });
+            setIdeas(result.data);
+        } catch (error) {
+            console.log(error)
+            setHasError(true);
         }
+        setIsLoading(false)
+    }
+
+    useEffect(() => {
         getIdeas()
     });
 

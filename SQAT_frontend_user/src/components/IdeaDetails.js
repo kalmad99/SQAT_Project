@@ -2,12 +2,19 @@ import React, { useState, useEffect } from 'react'
 import { Card, CardMedia, Typography, CardActions, makeStyles, alpha, CardContent } from '@material-ui/core';
 import { CardActionArea, Grid, Button } from '@material-ui/core';
 import { Favorite, FavoriteOutlined } from '@material-ui/icons';
-import axios from 'axios'
+import axios, { getToken } from '../Api/axiosConfig'
+import { loggedin_user } from '../RouteHandler/loggedinuser';
 
 function IdeaDetails(props) {
+    const token = getToken()
+    const payload = loggedin_user()
     const classes = useStyles();
     const voteIdea = async (id) => {
-        axios.patch('https://e909-197-156-118-253.eu.ngrok.io/ideas/' + id, { user_id: 1 })
+        axios.patch('/ideas/' + id, {user_id: payload.id}, {
+            headers: {
+                Authorization: 'Bearer ' + token
+            }
+        })
             .then(function (response) {
                 console.log(response);
             })

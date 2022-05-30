@@ -1,9 +1,9 @@
-import axios from ".."
+import axios from "../axiosConfig"
 
 export const login = async (email, password) => {
     try {
         console.log("login called")
-        const { data: result } = await axios.post("https://e909-197-156-118-253.eu.ngrok.io/login", { email, password })
+        const { data: result } = await axios.post("/login", { email, password })
         
         if (result.auth) {
             localStorage.setItem("token", result.token)

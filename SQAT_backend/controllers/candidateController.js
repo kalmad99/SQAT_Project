@@ -1,5 +1,6 @@
 const express = require('express')
 const router = express.Router()
+const auth = require('../middleware/auth');
 const Candidate = require('../models/candidate')
 const Voter = require('../models/voter')
 const User = require('../models/user')
@@ -8,7 +9,7 @@ const bcrypt = require('bcryptjs')
 const cors = require('cors')
 
 //get all candidates
-router.get('/', cors(), async (req, res, next) => {
+router.get('/', async (req, res, next) => {
     try {
         let query = {}
         if (req.query.query){
@@ -28,7 +29,7 @@ router.get('/', cors(), async (req, res, next) => {
 });
 
 // get candidate detail
-router.get('/:id', cors(), async (req, res, next) => {
+router.get('/:id', async (req, res, next) => {
     try {
         var candidate = await Candidate.findById(req.params.id);
         res.json({
@@ -46,7 +47,7 @@ router.get('/:id', cors(), async (req, res, next) => {
     }
 });
 
-router.patch('/', cors(), async function(req, res, next){
+router.patch('/', async function(req, res, next){
     const candidate = await Candidate.findOne({email: req.body.email})
     try{
         const updatedCandidate = await Candidate.findByIdAndUpdate(candidate._id, {
@@ -62,14 +63,13 @@ router.patch('/', cors(), async function(req, res, next){
 //add new candidate
 router.post(
   "/",
-  cors(),
   upload.single("profile"),
   async function (req, res, next) {
     const candidate = new Candidate({
         name: req.body.name,
         fname: req.body.fname,
         gname: req.body.gname,
-        fullName: req.body.name + req.body.fname,
+        fullName: req.body.name + " " + req.body.fname,
         email: req.body.email,
         id: req.body.id,
         dept: req.body.dept,
