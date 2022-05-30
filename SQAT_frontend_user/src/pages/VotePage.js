@@ -4,30 +4,80 @@ import { makeStyles } from '@material-ui/core';
 import CandidatesList from '../components/CandidatesList'
 import Countdown from '../components/countdown';
 import axios, { getToken } from '../Api/axiosConfig'
+import { loggedin_user } from '../RouteHandler/loggedinuser'
+import { SpinnerCircularFixed } from "spinners-react";
+
+const isEqual = (...objects) => objects.every(obj => JSON.stringify(obj) === JSON.stringify(objects[0]));
 
 function VotePage() {
     const classes = useStyles()
     const token = getToken()
-    const [isLoading, setIsLoading] = useState(true)
-    const [hasError, setHasError] = useState(false)
-    const [candidates, setCandidates] = useState([]);
+    const [user, setUser] = useState()
+    const [role, setRole] = useState('')
+    const payload = loggedin_user()
+    const [isUserLoading, setIsUserLoading] = useState(true)
+    const [isElectionsLoading, setIsElectionsLoading] = useState(true)
+    const [userHasError, setUserHasError] = useState(false)
+    const [electionsHasError, setElectionsHasError] = useState(false)
+    const [elections, setElections] = useState([]);
+    const [election, setElection] = useState([]);
 
     useEffect(() => {
-        const getCandidates = async () => {
+        const getUser = async () => {
             try {
-                const result = await axios.get('/candidates', {
+                var result = await axios.get('/voters/' + payload.id, {
                     headers: {
                         Authorization: 'Bearer ' + token  //the token is a variable which holds the token
                     }
-                });
-                setCandidates(result.data);
+                })
+                if (!result.data.data) {
+                    result = await axios.get('/candidates/' + payload.id, {
+                        headers: {
+                            Authorization: 'Bearer ' + token  //the token is a variable which holds the token
+                        }
+                    })
+                    setRole('candidate')
+                } else {
+                    setRole('voter')
+                }
+                setUser(result.data.data);
             } catch (error) {
-                setHasError(true);
+                setUserHasError(true);
             }
-            setIsLoading(false)
+            setIsUserLoading(false)
         }
-        getCandidates()
-    });
+        getUser()
+    }, [payload.id, token])
+
+    useEffect(() => {
+        const getElections = async () => {
+            try {
+                const result = await axios.get('/elections/', {
+                    headers: {
+                        Authorization: 'Bearer ' + token  //the token is a variable which holds the token
+                    }
+                })
+                setElections(result.data.data);
+            } catch (error) {
+                setElectionsHasError(true);
+            }
+            setIsElectionsLoading(false)
+        }
+        getElections()
+    }, [token])
+
+    useEffect(() => {
+        const getElection = async () => {
+            for (var i = 0; i < elections.length; i++) {
+                for (var j = 0; j < elections[i].voters.length; j++) {
+                    if (isEqual(elections[i].voters[j], user)) {
+                        setElection(elections[i])
+                    }
+                }
+            }
+        }
+        getElection()
+    }, [elections, user]);
 
     return (
         <div >
@@ -57,27 +107,38 @@ function VotePage() {
                         spacing={5}
                     >
                         <Grid item xs={12}>
-                            {isLoading && (
-                                <Typography>Loading ....</Typography>
-
+                            {(isUserLoading || isElectionsLoading) && (
+                                <Grid container justifyContent='center' alignItems="center">
+                                    <SpinnerCircularFixed
+                                        size={50}
+                                        thickness={100}
+                                        speed={100}
+                                        color="#36ad47"
+                                        secondaryColor="rgba(0, 0, 0, 0.44)"
+                                    />
+                                </Grid>
                             )}
-                            {hasError && (
-                                <Typography>failed</Typography>
+                            {(userHasError || electionsHasError) && (
+                                <Grid container justifyContent='center' >
+                                    <h3>Ooops something went wrong</h3>
+                                </Grid>
                             )}
-                            {!isLoading && candidates && (
+                            {!(isUserLoading || isElectionsLoading) && role === 'candidate' && (
+                                <Grid container justifyContent='center' >
+                                    <Typography>You are a candidate, you cant vote!</Typography>
+                                </Grid>
+                            )}
+                            {!(isUserLoading || isElectionsLoading) && role === 'voter' && election && election.candidates && (
                                 <>
-                                    {
-                                        candidates.length === 0 && (
-                                            <Typography>Nothing</Typography>
-                                        )
-                                    }
-                                    {candidates.map((candidate) => (
+                                    {election.candidates.map((candidate) => (
                                         <CandidatesList
+                                            key={candidate._id}
                                             id={candidate._id}
                                             name={candidate.name}
                                             fname={candidate.fname}
                                             dept={candidate.dept}
-                                            sections={candidate.section}
+                                            year={candidate.year}
+                                            section={candidate.section}
                                         />
                                     ))}
                                 </>

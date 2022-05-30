@@ -33,19 +33,22 @@ function Result() {
     const [isLoading, setIsLoading] = useState(true)
     const [hasError, setHasError] = useState(false)
 
-    const getElections = async () => {
-        try {
-            const result = await axios.get('/elections', {
-                headers: {
-                    Authorization: 'Bearer ' + token  //the token is a variable which holds the token
-                }
-            })
-            setElections(result.data.data);
-        } catch (error) {
-            setHasError(true);
+    useEffect(() => {
+        const getElections = async () => {
+            try {
+                const result = await axios.get('/elections', {
+                    headers: {
+                        Authorization: 'Bearer ' + token  //the token is a variable which holds the token
+                    }
+                })
+                setElections(result.data.data);
+            } catch (error) {
+                setHasError(true);
+            }
+            setIsLoading(false)
         }
-        setIsLoading(false)
-    }
+        getElections()
+    }, [token])
 
     const getElection = async (id) => {
         try {
@@ -60,13 +63,11 @@ function Result() {
         }
         setIsLoading(false)
     }
-    useEffect(() => {
-        getElections()
-    });
 
     const handleChange = async (event) => {
-        const temp = await getElection(event.target.value)
+        await getElection(event.target.value)
     };
+
     return (
         <Grid container >
             <Grid container justifyContent='center' className={classes.my_background} >
@@ -103,7 +104,10 @@ function Result() {
                         >
                             <MenuItem selected disabled hidden>--Select--</MenuItem>
                             {elections.map((election) => (
-                                <MenuItem value={election._id}>{election.name}</MenuItem>
+                                <MenuItem
+                                    key={election._id}
+                                    value={election._id}>{election.name}
+                                </MenuItem>
                             ))}
                         </Select>
                     </FormControl>
