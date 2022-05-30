@@ -1,9 +1,9 @@
 import { Grid, Typography } from '@material-ui/core'
 import React, { useEffect, useState } from 'react'
 import IdeaDetails from '../components/IdeaDetails'
-import SearchBar from '../components/searchBar';
-import FilterComponent from '../components/filterComponent';
-import Suggestion from '../components/suggestion';
+import SearchBar from '../components/SearchBar';
+import FilterComponent from '../components/FilterComponent';
+import Suggestion from '../components/Suggestion';
 import axios, { getToken } from '../Api/axiosConfig'
 
 function Ideas() {
@@ -11,25 +11,24 @@ function Ideas() {
     const [isLoading, setIsLoading] = useState(true)
     const [ideas, setIdeas] = useState([]);
     const [hasError, setHasError] = useState(false)
-
-    const getIdeas = async () => {
-        try {
-            const result = await axios.get('/ideas', {
-                headers: {
-                    Authorization: 'Bearer ' +  token  //the token is a variable which holds the token
-                }
-            });
-            setIdeas(result.data);
-        } catch (error) {
-            console.log(error)
-            setHasError(true);
-        }
-        setIsLoading(false)
-    }
-
+    
     useEffect(() => {
+        const getIdeas = async () => {
+            try {
+                const result = await axios.get('/ideas', {
+                    headers: {
+                        Authorization: 'Bearer ' +  token  //the token is a variable which holds the token
+                    }
+                });
+                setIdeas(result.data);
+            } catch (error) {
+                console.log(error)
+                setHasError(true);
+            }
+            setIsLoading(false)
+        }
         getIdeas()
-    });
+    }, [ideas]);
 
     return (
         <Grid container alignItems='center' justifyContent='center' style={{ height: '100vh' }}>
@@ -67,6 +66,8 @@ function Ideas() {
                                                 description={idea.description}
                                                 likeCount={idea.likeCount}
                                                 liked={idea.likedUser}
+                                                vote={setIdeas}
+                                                ideas={ideas}
                                             />
                                         ))}
                                     </Grid>

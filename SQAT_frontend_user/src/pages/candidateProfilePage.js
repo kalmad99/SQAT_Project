@@ -11,6 +11,15 @@ import { useNavigate, useLocation } from "react-router-dom";
 import axios, { getToken } from '../Api/axiosConfig'
 import { SpinnerCircularFixed } from "spinners-react";
 
+const deptTypes = [
+    "Software Engineering",
+    "Biomedical Engineering",
+    "Chemical Engineering",
+    "Civil Engineering",
+    "Electrical Engineering",
+    "Mechanical Engineering",
+];
+
 export default function CandidateProfilePage() {
     let location = useLocation();
     let navigate = useNavigate();
@@ -28,7 +37,7 @@ export default function CandidateProfilePage() {
     useEffect(() => {
         const getCandidateDetail = async () => {
             try {
-                const result = await axios.get('https://e909-197-156-118-253.eu.ngrok.io/candidates/' + candidateId, {
+                const result = await axios.get('/candidates/' + candidateId, {
                     headers: {
                         Authorization: 'Bearer ' + token  //the token is a variable which holds the token
                     }
@@ -68,7 +77,7 @@ export default function CandidateProfilePage() {
                     <h2>{hasError.message}</h2>
                 </>
             )}
-            {!isLoading && candidate && (
+            {!isLoading && !hasError && candidate && (
                 <>
                     <Grid item xs={12} lg={3}>
                         <Paper elevation={3}>
@@ -82,15 +91,20 @@ export default function CandidateProfilePage() {
                                 boxShadow='2'
                             >
                                 <Box item mb={2}>
-
                                     <Avatar
-                                        sx={{ width: 100, height: 100 }}
+                                        className='profilePic'
+                                        src="https://randomuser.me/api/portraits/women/81.jpg"
+                                        style={{
+                                            width: '120px',
+                                            height: '120px'
+                                        }}
                                     />
                                 </Box>
+                                <Box>
+                                    <Typography className='fullName' variant="h5">{candidate.name + " " + candidate.fname}</Typography>
+                                </Box>
                                 <Box item paddingX={2}>
-
-                                    <Typography>{candidate.bio}
-                                    </Typography>
+                                    <Typography className='bio'>{candidate.bio}</Typography>
                                 </Box>
                             </Box>
                         </Paper>
@@ -113,7 +127,7 @@ export default function CandidateProfilePage() {
                                     </Typography>
                                 </Grid>
                                 <Grid item xs={9} style={{ marginBottom: "10px" }}>
-                                    <TextField id="outlined-basic" variant="outlined" fullWidth size="small" value={candidate.name}/>
+                                    <TextField id="outlined-basic" variant="outlined" fullWidth size="small" value={candidate.name} />
                                 </Grid>
 
                                 <Grid item xs={3}>
@@ -130,7 +144,7 @@ export default function CandidateProfilePage() {
                                     </Typography>
                                 </Grid>
                                 <Grid item xs={9} style={{ marginBottom: "10px" }}>
-                                    <TextField id="outlined-basic" variant="outlined" fullWidth size="small" value={candidate.gname}/>
+                                    <TextField id="outlined-basic" variant="outlined" fullWidth size="small" value={candidate.gname} />
                                 </Grid>
                                 <Grid item xs={3}>
                                     <Typography>
@@ -154,7 +168,7 @@ export default function CandidateProfilePage() {
                                     </Typography>
                                 </Grid>
                                 <Grid item xs={9} style={{ marginBottom: "10px" }}>
-                                    <TextField id="outlined-basic" variant="outlined" fullWidth size="small" value={candidate.dept} />
+                                    <TextField id="outlined-basic" variant="outlined" fullWidth size="small" value={deptTypes[candidate.dept]} />
                                 </Grid>
                                 <Grid item xs={3}>
                                     <Typography>
@@ -162,7 +176,7 @@ export default function CandidateProfilePage() {
                                     </Typography>
                                 </Grid>
                                 <Grid item xs={9} style={{ marginBottom: "10px" }}>
-                                    <TextField id="outlined-basic" variant="outlined" fullWidth size="small" value={candidate.year}/>
+                                    <TextField id="outlined-basic" variant="outlined" fullWidth size="small" value={candidate.year} />
                                 </Grid>
                                 <Grid item xs={3}>
                                     <Typography>
@@ -175,7 +189,7 @@ export default function CandidateProfilePage() {
                             </Grid>
                         </Paper>
                         <Grid>
-                            <Button variant='contained' style={{backgroundColor: '#00D05A', color: 'white', marginTop: '10px'}} onClick={onCancel}>Cancel</Button>
+                            <Button variant='contained' style={{ backgroundColor: '#00D05A', color: 'white', marginTop: '10px' }} onClick={onCancel}>Cancel</Button>
                         </Grid>
                     </Grid>
                 </>

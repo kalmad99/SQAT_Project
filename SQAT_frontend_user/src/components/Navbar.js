@@ -5,7 +5,7 @@ import Typography from '@material-ui/core/Typography';
 import { Avatar, Container, Grid, Button, makeStyles } from '@material-ui/core';
 import * as React from 'react';
 import { Link } from 'react-router-dom';
-import { Logout } from '../Api/auth';
+// import { Logout } from '../Api/auth';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -70,7 +70,7 @@ function Navbar() {
                                     </Link>
                                 </Grid>
                                 <Grid item xs={4}>
-                                    <Link to="/candidate_list">
+                                    <Link to="/auth/Voting_underway">
                                         <Typography variant="h6" className={classes.title}>
                                             Voting
                                         </Typography>
@@ -86,8 +86,8 @@ function Navbar() {
                             </Grid>
                             <Grid item xs={1} sm={3} md={6} lg={6} className={classes.right_bar}
                             >
-                                <Button variant="contained" onClick={Logout}>Logout</Button>
-                                {/* <Avatar alt="owner name" src="" /> */}
+                                {/* <Button variant="contained" onClick={Logout}>Logout</Button> */}
+                                <Avatar alt="owner name" src="" />
                             </Grid>
 
                         </Grid>

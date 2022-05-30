@@ -9,22 +9,20 @@ function IdeaDetails(props) {
     const token = getToken()
     const payload = loggedin_user()
     const classes = useStyles();
+    // const [currentIdea, setCurrentIdea] = useState()
+
     const voteIdea = async (id) => {
-        axios.patch('/ideas/' + id, {user_id: payload.id}, {
+        await axios.patch('/ideas/' + id, {user_id: payload.id}, {
             headers: {
                 Authorization: 'Bearer ' + token
             }
         })
-            .then(function (response) {
-                console.log(response);
-            })
-            .catch(function (error) {
-                console.log(error);
-            });
     }
 
     const clickHandler = async (e) => {
         await voteIdea(props.id)
+        // const updatedIdea = props.ideas.map((idea) => idea._id === currentIdea._id && idea.likeCount !== currentIdea.likeCount ? currentIdea : idea)
+        // props.vote(updatedIdea)   
     }
 
     return (
@@ -55,7 +53,7 @@ function IdeaDetails(props) {
                         <Grid container justifyContent='flex-end'>
                             <Button
                                 aria-label="reduce"
-                                onClick={clickHandler}
+                                onClick={async ()=>await clickHandler()}
                             >
                                 {props.liked ? <Favorite className={classes.selected} /> : <FavoriteOutlined className={classes.icons} />}
                             </Button>

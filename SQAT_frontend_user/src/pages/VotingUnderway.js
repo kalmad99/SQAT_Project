@@ -191,7 +191,7 @@ function VotingUnderway() {
                                 minWidth: "150px"
                             }}
                         >
-                            <Link href="#" underline="none" color="#00D05A">
+                            <Link href="/candidate_list" underline="none" color="#00D05A">
                                 Enter Election
                             </Link>
                         </Button>
