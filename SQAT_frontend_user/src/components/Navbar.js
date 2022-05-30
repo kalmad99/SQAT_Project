@@ -2,10 +2,10 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 
-import { Avatar, Container, Grid, makeStyles } from '@material-ui/core';
+import { Avatar, Container, Grid, Button, makeStyles } from '@material-ui/core';
 import * as React from 'react';
 import { Link } from 'react-router-dom';
-
+import { Logout } from '../Api/auth';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -63,30 +63,31 @@ function Navbar() {
                                     </Link>
                                 </Grid>
                                 <Grid item xs={4}>
-                                    <Link to="/candidate_list">
-                                        <Typography variant="h6" className={classes.title}>
-                                            Candidate
-                                        </Typography>
-                                    </Link>
-                                </Grid>
-                                <Grid item xs={4}>
-                                    <Link to="/auth/before_voting">
-                                        <Typography variant="h6" className={classes.title}>
-                                            Voting
-                                        </Typography>
-                                    </Link>
-                                </Grid>
-                                <Grid item xs={4}>
                                     <Link to="/auth/ideas">
                                         <Typography variant="h6" className={classes.title}>
                                             Ideas
                                         </Typography>
                                     </Link>
                                 </Grid>
+                                <Grid item xs={4}>
+                                    <Link to="/candidate_list">
+                                        <Typography variant="h6" className={classes.title}>
+                                            Voting
+                                        </Typography>
+                                    </Link>
+                                </Grid>
+                                <Grid item xs={4}>
+                                    <Link to="/auth/Result">
+                                        <Typography variant="h6" className={classes.title}>
+                                            Result
+                                        </Typography>
+                                    </Link>
+                                </Grid>
                             </Grid>
                             <Grid item xs={1} sm={3} md={6} lg={6} className={classes.right_bar}
                             >
-                                <Avatar alt="owner name" src="" />
+                                <Button variant="contained" onClick={Logout}>Logout</Button>
+                                {/* <Avatar alt="owner name" src="" /> */}
                             </Grid>
 
                         </Grid>

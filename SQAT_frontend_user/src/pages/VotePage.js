@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { Avatar, Box, Button, Card, Grid, Typography } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core';
-import CandidatesList from '../components/candidatesList'
+import CandidatesList from '../components/CandidatesList'
 import Countdown from '../components/countdown';
 import axios, { getToken } from '../Api/axiosConfig'
 
@@ -17,7 +17,7 @@ function VotePage() {
             try {
                 const result = await axios.get('/candidates', {
                     headers: {
-                        Authorization: 'Bearer ' +  token  //the token is a variable which holds the token
+                        Authorization: 'Bearer ' + token  //the token is a variable which holds the token
                     }
                 });
                 setCandidates(result.data);
@@ -73,6 +73,7 @@ function VotePage() {
                                     }
                                     {candidates.map((candidate) => (
                                         <CandidatesList
+                                            id={candidate._id}
                                             name={candidate.name}
                                             fname={candidate.fname}
                                             dept={candidate.dept}

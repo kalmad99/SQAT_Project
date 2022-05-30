@@ -10,7 +10,7 @@ import BeforeVoting from "./pages/BeforeVoting";
 import Result from "./pages/Result";
 import Ideas from "./pages/Ideas";
 import VotePage from "./pages/VotePage";
-import CandidateProfilePage from "./pages/candidateProfilePage";
+import CandidateProfilePage from "./pages/CandidateProfilePage";
 import PrivateRoute from "./RouteHandler/privateRoute";
 import Countdown from "./components/countdown";
 
@@ -56,6 +56,11 @@ function App() {
           <PrivateRoute>
             <Navbar />
             <VotePage />
+          </PrivateRoute>
+        } />
+        <Route path="/candidateProfile" element={
+          <PrivateRoute>
+            <CandidateProfilePage />
           </PrivateRoute>
         } />
         <Route path="/auth/Before_Voting" element={
