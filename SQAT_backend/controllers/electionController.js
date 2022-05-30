@@ -15,23 +15,21 @@ const deptTypes = [
   "Mechanical Engineering",
 ];
 //get all elections
-router.get('/', async (req, res, next) => {
+router.get("/", cors(), async (req, res, next) => {
   try {
-    let query = {}
+    let query = {};
     if (req.query.query) {
-      query.$or = [
-        { "name": { $regex: req.query.query, $options: 'i' } },
-      ]
+      query.$or = [{ name: { $regex: req.query.query, $options: "i" } }];
     }
     var elections = await Election.find(query);
     res.json({
-      status: 'success',
+      status: "success",
       code: 200,
-      data: elections
-    })
+      data: elections,
+    });
   } catch (e) {
     res.json({
-      status: 'failed',
+      status: "failed",
       code: 400,
       message: e,
     });
@@ -39,32 +37,32 @@ router.get('/', async (req, res, next) => {
 });
 
 // get election detail
-router.get('/:id', async (req, res, next) => {
+router.get("/:id", cors(), async (req, res, next) => {
   try {
     var election = await Election.findById(req.params.id);
     res.json({
-      status: 'success',
+      status: "success",
       code: 200,
-      data: election
-    })
+      data: election,
+    });
   } catch (e) {
     res.json({
       status: "failed",
       code: 500,
-      message: "Election doesn't exist!"
-    })
+      message: "Election doesn't exist!",
+    });
   }
 });
 
 //add new election
 router.post("/", async function (req, res, next) {
   const voters = await Voter.find({
-    dept: req.body.dept-1,
+    dept: req.body.dept - 1,
     year: req.body.batch,
     section: req.body.section,
   });
   const candidates = await Candidate.find({
-    dept: req.body.dept-1,
+    dept: req.body.dept - 1,
     year: req.body.batch,
     section: req.body.section,
   });
@@ -77,7 +75,7 @@ router.post("/", async function (req, res, next) {
     req.body.section +
     " election";
 
-    // await Election.remove();
+  // await Election.remove();
 
   var check = await Election.findOne({ name: electionName });
   if (check) {
@@ -87,7 +85,7 @@ router.post("/", async function (req, res, next) {
   const election = new Election({
     name: electionName,
     type: req.body.type,
-    department: req.body.dept-1,
+    department: req.body.dept - 1,
     batch: req.body.batch,
     section: req.body.section,
     voters: voters,

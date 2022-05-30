@@ -6,6 +6,7 @@ import { SpinnerCircularFixed } from "spinners-react";
 
 export default function Candidates() {
   const [isLoading, setIsLoading] = useState(true);
+  const [isSearching, setIsSearching] = useState(true);
   const [candidates, setCandidates] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [hasError, setHasError] = useState(false);
@@ -13,7 +14,23 @@ export default function Candidates() {
   const clearSearch = () => {
     setSearchQuery("");
   };
-  
+  const deptTypes = [
+    "Software Engineering",
+    "Biomedical Engineering",
+    "Chemical Engineering",
+    "Civil Engineering",
+    "Electrical Engineering",
+    "Mechanical Engineering",
+  ];
+
+  const getSearchQuery = (e) => {
+    if (e.target.value === "") {
+      setIsSearching(true);
+    } else {
+      setIsSearching(false);
+    }
+    setSearchQuery(e.target.value);
+  };
 
   useEffect(() => {
     const getCandidates = async () => {
@@ -21,22 +38,19 @@ export default function Candidates() {
         const result = await axios.get(
           "http://localhost:8080/candidates?query=" + searchQuery
         );
-        setCandidates(result.data);
-        console.log("candidates", result.data);
+        const zresult = result.data ? result.data.map((candidate) => {
+          return { ...candidate, departmentName: deptTypes[candidate.dept] };
+        }) : [];
+        setCandidates(zresult);
       } catch (error) {
         setHasError(true);
+        console.log(error);
       }
       setIsLoading(false);
     };
     getCandidates();
   }, [searchQuery]);
 
-  
-  console.log("candidates from candidates.js", candidates);
-
-//   const extractdisqualifiedCandidates = () => {
-//       setCandidates(extractCandidates(candidates));
-//   }
   const columns = React.useMemo(
     () => [
       {
@@ -44,16 +58,16 @@ export default function Candidates() {
         accessor: "fullName",
       },
       {
-        Header: "Section",
-        accessor: "section",
+        Header: "Department",
+        accessor: "departmentName",
       },
       {
         Header: "Year",
         accessor: "year",
       },
       {
-        Header: "Department",
-        accessor: "dept",
+        Header: "Section",
+        accessor: "section",
       },
       {
         Header: "Status",
@@ -119,12 +133,21 @@ export default function Candidates() {
                   type="text"
                   id="table-search"
                   class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-80 pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                  onChange={(e) => setSearchQuery(e.target.value)}
+                  onChange={(e) => getSearchQuery(e)}
                   value={searchQuery}
                   placeholder="Search..."
                 />
                 <div class="p-2 pl-0 -ml-6 text-gray-50">
                   <AiOutlineClose onClick={clearSearch} />
+                  <SpinnerCircularFixed
+                    size={25}
+                    thickness={200}
+                    hidden={isSearching}
+                    class="pb-4 pr-2"
+                    speed={100}
+                    color="#36ad47"
+                    secondaryColor="rgba(0, 0, 0, 0.44)"
+                  />
                 </div>
               </div>
             </div>
