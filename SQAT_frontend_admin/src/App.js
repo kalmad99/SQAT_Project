@@ -16,7 +16,7 @@ import {
 import { AiOutlineMenu } from "react-icons/ai";
 import Election from './components/Elections';
 import Result from './components/Result'
-import PrivateRoute from './routeHandler/privateRoute';
+import PrivateRoute from './routeHandler/privateRoute'
 
 function App() {
   return (
@@ -32,19 +32,52 @@ function App() {
         </div>
         <div class="flex-1 h-screen md:overflow-y-auto">
           <Routes>
-            <Route path="/" exact element={<Home />} />
-            <Route path="/voters" element={<Voters />} />
-            <Route path="/candidates" element={<Candidates />} />
-            <Route path="/candidateDetail" element={<CandidateDetail />} />
-            <Route path="/voters/newuser" element={<NewUser />} />
-            <Route path="/elections" element={<Election />} />
-            <Route path="/elections/newelection" element={<NewElection />} />
-            <Route path="/results" element={<Result />} />
-            <Route path="/auth/admin-login" element={<Login />} />
+            <Route path="/" exact element={
+              <PrivateRoute>
+                <Home />
+              </PrivateRoute>
+            } />
+            <Route path="/voters" element={
+              <PrivateRoute>
+                <Voters />
+              </PrivateRoute>
+            } />
+            <Route path="/candidates" element={
+              <PrivateRoute>
+                <Candidates />
+              </PrivateRoute>
+            } />
+            <Route path="/candidateDetail" element={
+              <PrivateRoute>
+                <CandidateDetail />
+              </PrivateRoute>
+            } />
+            <Route path="/voters/newuser" element={
+              <PrivateRoute>
+                <NewUser />
+              </PrivateRoute>
+            } />
+            <Route path="/elections" element={
+              <PrivateRoute>
+                <Election />
+              </PrivateRoute>
+            } />
+            <Route path="/elections/newelection" element={
+              <PrivateRoute>
+                <NewElection />
+              </PrivateRoute>
+            } />
+            <Route path="/results" element={
+              <PrivateRoute>
+                <Result />
+              </PrivateRoute>
+            } />
             <Route
               path="*"
               element={<Navigate to="/" replace />}
             />
+            <Route path="/admin/login" element={<Login />} />
+
           </Routes>
         </div>
       </div>

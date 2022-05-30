@@ -78,32 +78,32 @@ router.post('/', async (req, res) => {
     }
 });
 
-// router.post('/', async (req, res) => {
-//     try {
-//         const { email, password } = req.body;
-//         console.log("email--", email, password)
-//         console.log("password--", password)
-//         console.log("req.body--", req.body)
-//         const admin = await Admin.findOne({ email: email })
-//         console.log("Admin--", admin)
-//         if (!admin) {
-//             return res.status(404).send("Email/Password is Incorrect");
-//         }
-//         const validPassword = await bcrypt.compare(req.body.password, admin.password);
-//         if (!validPassword) {
-//             return res.status(404).send("Email/Password is Incorrect")
-//         } else {
-//             const token = jwt.sign({ id: admin._id }, config.secret, {
-//                 expiresIn: '24h'
-//             });
-//             res.status(200).json({ auth: true, token });
+router.post('/admin', async (req, res) => {
+    try {
+        const { email, password } = req.body;
+        console.log("email--", email, password)
+        console.log("password--", password)
+        console.log("req.body--", req.body)
+        const admin = await Admin.findOne({ email: email })
+        console.log("Admin--", admin)
+        if (!admin) {
+            return res.status(404).send("Email/Password is Incorrect");
+        }
+        const validPassword = await bcrypt.compare(req.body.password, admin.password);
+        if (!validPassword) {
+            return res.status(404).send("Email/Password is Incorrect")
+        } else {
+            const token = jwt.sign({ id: admin._id }, config.secret, {
+                expiresIn: '24h'
+            });
+            res.status(200).json({ auth: true, token });
 
-//         }
-//     } catch (e) {
-//         console.log(e)
-//         res.status(500).send('Plese try again , "Can not Login"');
-//     }
-// });
+        }
+    } catch (e) {
+        console.log(e)
+        res.status(500).send('Plese try again , "Can not Login"');
+    }
+});
 
 // Logout router
 
