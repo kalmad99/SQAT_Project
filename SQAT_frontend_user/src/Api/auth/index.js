@@ -1,4 +1,5 @@
 import axios from "../axiosConfig"
+import { useNavigate } from 'react-router-dom'
 
 export const login = async (email, password) => {
     try {
@@ -15,3 +16,10 @@ export const login = async (email, password) => {
         throw new Error("Invalid Email or Password")
     }
 }
+
+// export const Logout = () => {
+//     localStorage.removeItem("token")
+//     const navigate = useNavigate()
+//     navigate('/')
+
+// }
