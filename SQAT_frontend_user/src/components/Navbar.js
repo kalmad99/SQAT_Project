@@ -4,8 +4,8 @@ import Typography from '@material-ui/core/Typography';
 
 import { Avatar, Container, Grid, Button, makeStyles } from '@material-ui/core';
 import * as React from 'react';
-import { Link } from 'react-router-dom';
-// import { Logout } from '../Api/auth';
+import { Link, useNavigate } from 'react-router-dom';
+import { logout } from '../Api/auth';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -46,7 +46,12 @@ const useStyles = makeStyles((theme) => ({
 
 function Navbar() {
     const classes = useStyles()
+    const navigate = useNavigate()
 
+    const onLogout = () => {
+        logout()
+        navigate('/login')
+    }
     return (
         <div className={classes.root}>
             <AppBar position="static" className={classes.appbar_styles}>
@@ -86,8 +91,8 @@ function Navbar() {
                             </Grid>
                             <Grid item xs={1} sm={3} md={6} lg={6} className={classes.right_bar}
                             >
-                                {/* <Button variant="contained" onClick={Logout}>Logout</Button> */}
-                                <Avatar alt="owner name" src="" />
+                                <Button variant="contained" onClick={onLogout}>Logout</Button>
+                                {/* <Avatar alt="owner name" src="" /> */}
                             </Grid>
 
                         </Grid>
