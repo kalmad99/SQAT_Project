@@ -139,6 +139,7 @@ function VotePage() {
                                             dept={candidate.dept}
                                             year={candidate.year}
                                             section={candidate.section}
+                                            electionId={election._id}
                                         />
                                     ))}
                                 </>

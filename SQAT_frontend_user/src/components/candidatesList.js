@@ -3,8 +3,10 @@ import { Avatar } from '@material-ui/core'
 import { Card } from '@material-ui/core'
 import { Box } from '@material-ui/core'
 import { Typography } from '@material-ui/core'
-import React from 'react'
+import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import axios, { getToken } from '../Api/axiosConfig'
+import { loggedin_user } from '../RouteHandler/loggedinuser';
 
 const deptTypes = [
     "Software Engineering",
@@ -16,12 +18,39 @@ const deptTypes = [
 ];
 
 function CandidatesList(props) {
+
     const navigate = useNavigate()
+
+    const token = getToken()
+    const payload = loggedin_user()
+
+    // const [isVoteLoading, setIsVoteLoading] = useState(true)
+    // const [voteHasError, setVoteHasError] = useState(false)
+
     const viewProfile = () => {
         console.log("Here");
         navigate("/candidateProfile", { state: props.id })
     }
 
+    const vote = async () => {
+        console.log(props.electionId, props.id, payload.id)
+        await axios.patch('/elections',
+            {
+                electionId: props.electionId,
+                candidateId: props.id,
+                voterId: payload.id
+            }, {
+            headers: {
+                Authorization: 'Bearer ' + token
+            }
+        }).then(function (response) {
+            console.log(response);
+        }).catch(function (error) {
+            console.log(error);
+        })
+
+        navigate('/auth/Result')
+    }
     return (
         <Card>
             <Box display="flex" justifyContent="Space-between">
@@ -55,7 +84,8 @@ function CandidatesList(props) {
                     <Button variant="outlined" style={{
                         borderRadius: 5,
                         color: "#00D05A"
-                    }}>Vote</Button>
+
+                    }} onClick={vote}>Vote</Button>
                 </Box>
             </Box>
         </Card>
