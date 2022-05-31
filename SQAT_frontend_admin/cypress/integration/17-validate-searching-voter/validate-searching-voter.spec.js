@@ -1,7 +1,8 @@
 /* eslint-disable testing-library/await-async-utils */
 describe("validate searching through voters", () => {
     beforeEach(() => {
-      cy.visit("http://localhost:3000/");
+      // cy.visit("http://localhost:3000/");
+      cy.loginExistingAdmin("admin123@gmail.com", "admin123");
     });
   
     it("searches existing voter name", () => {

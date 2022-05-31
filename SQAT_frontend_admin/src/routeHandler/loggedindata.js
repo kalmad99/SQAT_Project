@@ -3,9 +3,11 @@
 
 import jwtDecode from 'jwt-decode'
 
-const setLocalStorage = (token) => {
-    localStorage.setItem("token", JSON.stringify(token))
-}
+// const setLocalStorage = (token) => {
+//     localStorage.setItem("token", JSON.stringify(token))
+// }
+
+
 
 const getUserFromToken = () => {
     const token = localStorage.getItem("token");

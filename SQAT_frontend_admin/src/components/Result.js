@@ -53,21 +53,21 @@ export default function Result() {
                     <div class="min-h-screen w-[50vw] bg - white - 800 flex flex - col justify - center py - 4 px - 4 lg: px - 8">
                         <div class="w-full py-4 px-4 lg:px-8 rounded-2xl bg-white-700" >
                             <div>
-                                <h2 class="my-4 text-xl text-center font-bold text-gray-900">{election.name}</h2>
+                                <h2 data-cy="result-election-name" class="my-4 text-xl text-center font-bold text-gray-900">{election.name}</h2>
                             </div>
                             {candidates.map((candidate, index) => (
                                 <div class="flex flex-row justify-evenly items-center p-2 m-2">
                                     <div>
-                                        <h2 class="my-4 text-l font-semibold text-gray-900">{index + 1}</h2>
+                                        <h2 data-cy="result-rank" class="my-4 text-l font-semibold text-gray-900">{index + 1}</h2>
                                     </div>
                                     <div class="relative w-28 h-28">
-                                        <img src="https://randomuser.me/api/portraits/women/81.jpg" alt='' />
+                                        <img data-cy="result-pp" src="https://randomuser.me/api/portraits/women/81.jpg" alt='' />
 
                                     </div>
                                     <div>
-                                        <h2 class="my-4 text-l font-semibold text-gray-900"><span>{candidate.name}</span> <span>{candidate.fname}</span></h2>
+                                        <h2  data-cy="result-candidate-name" class="my-4 text-l font-semibold text-gray-900"><span>{candidate.name}</span> <span>{candidate.fname}</span></h2>
                                     </div>
-                                    <div>{candidate.voteCount}</div>
+                                    <div data-cy="result-count">{candidate.voteCount}</div>
                                 </div>
                             ))}
                         </div>

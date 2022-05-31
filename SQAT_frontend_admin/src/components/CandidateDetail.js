@@ -48,7 +48,7 @@ export default function CandidateDetail() {
           </h2>
         </div>
         <div class="text-l text-center w-[50vw] font-regular text-gray-900">
-          <p>{candidate.bio}</p>
+          <p data-cy="bio-p">{candidate.bio}</p>
         </div>
         <div class="w-[40vw] py-2 px-4 lg:px-8">
           <div class="flex flex-row justify-between items-center mb-6 md:mb-1">

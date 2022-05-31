@@ -2,7 +2,7 @@
 /* eslint-disable cypress/no-unnecessary-waiting */
 describe("add new user", () => {
   beforeEach(() => {
-    cy.visit("http://localhost:3000/");
+    cy.loginExistingAdmin("admin123@gmail.com", "admin123");
   });
 
   it("adds new voter - spied", () => {

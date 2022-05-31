@@ -1,9 +1,9 @@
 import React from 'react'
 import { useTable, useSortBy, usePagination } from "react-table";
-import { ChevronDoubleLeftIcon, ChevronLeftIcon, ChevronRightIcon, ChevronDoubleRightIcon } from '@heroicons/react/solid'
-import { Button, PageButton } from '../shared/Buttons'
-import { classNames } from '../shared/Utils';
-import { useNavigate } from "react-router-dom";
+// import { ChevronDoubleLeftIcon, ChevronLeftIcon, ChevronRightIcon, ChevronDoubleRightIcon } from '@heroicons/react/solid'
+// import { Button, PageButton } from '../shared/Buttons'
+// import { classNames } from '../shared/Utils';
+// import { useNavigate } from "react-router-dom";
 
 const VotersTable = ({ columns, data }) => {
     const {
@@ -12,14 +12,7 @@ const VotersTable = ({ columns, data }) => {
         headerGroups,
         prepareRow,
         page,
-        canPreviousPage,
-        canNextPage,
-        pageOptions,
-        pageCount,
-        gotoPage,
-        nextPage,
-        previousPage,
-        state: { pageIndex },
+        
     } = useTable({
         columns,
         data,
@@ -91,66 +84,20 @@ const VotersTable = ({ columns, data }) => {
                     </div>
                 </div>
             </div>
-            <div className="py-3 flex items-center justify-between">
-                <div className="flex-1 flex justify-between sm:hidden">
-                    <Button onClick={() => previousPage()} disabled={!canPreviousPage}>Previous</Button>
-                    <Button onClick={() => nextPage()} disabled={!canNextPage}>Next</Button>
-                </div>
-                <div className="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
-                    <div className="flex gap-x-2">
-                        <span className="text-sm text-gray-700">
-                            Page <span className="font-medium">{pageIndex + 1}</span> of <span className="font-medium">{pageOptions.length}</span>
-                        </span>
-                    </div>
-                    <div>
-                        <nav className="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
-                            <PageButton
-                                className="rounded-l-md"
-                                onClick={() => gotoPage(0)}
-                                disabled={!canPreviousPage}
-                            >
-                                <span className="sr-only">First</span>
-                                <ChevronDoubleLeftIcon className="h-5 w-5" aria-hidden="true" />
-                            </PageButton>
-                            <PageButton
-                                onClick={() => previousPage()}
-                                disabled={!canPreviousPage}
-                            >
-                                <span className="sr-only">Previous</span>
-                                <ChevronLeftIcon className="h-5 w-5" aria-hidden="true" />
-                            </PageButton>
-                            <PageButton
-                                onClick={() => nextPage()}
-                                disabled={!canNextPage
-                                }>
-                                <span className="sr-only">Next</span>
-                                <ChevronRightIcon className="h-5 w-5" aria-hidden="true" />
-                            </PageButton>
-                            <PageButton
-                                className="rounded-r-md"
-                                onClick={() => gotoPage(pageCount - 1)}
-                                disabled={!canNextPage}
-                            >
-                                <span className="sr-only">Last</span>
-                                <ChevronDoubleRightIcon className="h-5 w-5" aria-hidden="true" />
-                            </PageButton>
-                        </nav>
-                    </div>
-                </div>
-            </div>
+            
         </div>
     );
 }
 
 export default VotersTable
 
-export function Detail({ value }) {
-    // const result = (value === 1) ? <ImLock /> : <ImUnlocked />;
-    const result = <a href="?" class="text-blue-600 dark:text-blue-500 hover:underline">Details</a>
+// export function Detail({ value }) {
+//     // const result = (value === 1) ? <ImLock /> : <ImUnlocked />;
+//     const result = <a href="?" class="text-blue-600 dark:text-blue-500 hover:underline">Details</a>
 
-    return (
-        <span>
-            {result}
-        </span>
-    )
-}
+//     return (
+//         <span>
+//             {result}
+//         </span>
+//     )
+// }

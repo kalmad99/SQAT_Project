@@ -1,19 +1,17 @@
 /* eslint-disable testing-library/await-async-utils */
 describe("display candidates detail", () => {
   beforeEach(() => {
-    cy.visit("http://localhost:3000/");
+    cy.loginExistingAdmin("admin123@gmail.com", "admin123");
   });
 
-  it.skip("displays candidate details", () => {
+  it("displays candidate details", () => {
     cy.get("a[href='/candidates']").click();
     cy.get("table tbody tr td span a[href='/candidateDetail']").click();
     cy.get("h2").should("contain", "Trial Trial Trial");
     cy.get("input[name=dept]").should("have.value", "Software Engineering");
     cy.get("input[name=batch]").should("have.value", "1");
     cy.get("input[name=sect]").should("have.value", "1");
-    cy.get(
-      "div[class='text-l text-center w-[50vw] font-regular text-gray-900'] p"
-    ).should("contain", "trial is my middle name");
+    cy.get("p[data-cy = 'bip-p]").should("contain", "trial is my middle name");
     cy.get(
       "img[src='https://randomuser.me/api/portraits/women/81.jpg']"
     ).should("be.visible");

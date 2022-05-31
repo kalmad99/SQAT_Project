@@ -30,7 +30,7 @@ export default function NewUser() {
       axios
         .post("http://localhost:8080/candidates", formValues)
         .then(function (response) {
-          console.log(response);
+          // console.log(response);
           if (response.status === 200) navigate("/users");
         })
         .catch(function (error) {
@@ -51,7 +51,7 @@ export default function NewUser() {
           wallet: formValues.wallet,
         })
         .then(function (response) {
-          console.log(response);
+          // console.log(response);
         })
         .catch(function (error) {
           console.log(error);

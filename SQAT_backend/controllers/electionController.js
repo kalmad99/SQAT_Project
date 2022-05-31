@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const auth = require('../middleware/auth');
+const auth = require("../middleware/auth");
 const Election = require("../models/election");
 const Voter = require("../models/voter");
 const Candidate = require("../models/candidate");
@@ -67,8 +67,16 @@ router.post("/", async function (req, res, next) {
     section: req.body.section,
   });
 
+  if (voters.length === 0 || candidates.length === 0) {
+    res.json({
+      status: "failed",
+      code: 404,
+      message: "No voters or candidates found for this election!",
+    });
+  }
+
   const electionName =
-    deptTypes[req.body.dept-1] +
+    deptTypes[req.body.dept - 1] +
     " Year-" +
     req.body.batch +
     " Section-" +
@@ -105,13 +113,13 @@ router.post("/", async function (req, res, next) {
 });
 
 //Vote
-router.patch('/', async function (req, res, next) {
+router.patch("/", async function (req, res, next) {
   const election = await Election.findOne({
-      _id: req.body.electionId
+    _id: req.body.electionId,
   });
 
   if (!election) {
-      return res.status(400).send("Election doesn't Exist!");
+    return res.status(400).send("Election doesn't Exist!");
   } else {
       for (var i=0; i < election.candidates.length; i++){
           if (election.candidates[i]._id.equals(req.body.candidateId)){
@@ -121,15 +129,15 @@ router.patch('/', async function (req, res, next) {
       }
   }
   try {
-      const updatedElection = await election.save()
-      res.json({
-          status: 'success',
-          code: 204,
-          message: "Vote Successful",
-          data: updatedElection
-      })
+    const updatedElection = await election.save();
+    res.json({
+      status: "success",
+      code: 204,
+      message: "Vote Successful",
+      data: updatedElection,
+    });
   } catch (err) {
       res.status(500).json({ message: "Can't Vote" })
   }
-})
+});
 module.exports = router;

@@ -1,7 +1,7 @@
 /* eslint-disable testing-library/await-async-utils */
 describe("display voters", () => {
   beforeEach(() => {
-    cy.visit("http://localhost:3000/");
+    cy.loginExistingAdmin("admin123@gmail.com", "admin123");
   });
 
   it("displays voters", () => {

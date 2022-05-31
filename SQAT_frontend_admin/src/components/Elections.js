@@ -19,6 +19,7 @@ export default function Election() {
         const getElections = async () => {
             try {
                 const result = await axios.get('http://localhost:8080/elections?query=' + searchQuery)
+                console.log(result.data);
                 setElections(result.data.data);
             } catch (error) {
                 setHasError(true);
@@ -87,7 +88,7 @@ export default function Election() {
                             </div>
                         </div>
                         <div class="bg-[#00D05A] text-white mt-1 p-3 rounded-xl font-body font-light text-sm">
-                            <button onClick={routeChange}>Add Election</button>
+                            <button data-cy="add-election-button" onClick={routeChange}>Add Election</button>
                         </div>
                     </div>
                     <ElectionTable columns={columns} data={elections} />
