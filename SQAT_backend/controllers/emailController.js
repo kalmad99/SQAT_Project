@@ -11,7 +11,7 @@ const transport = nodemailer.createTransport({
     },
 });
 
-const URL = 'http://localhost:8080/login/'
+const URL = 'http://localhost:3000/login/'
 
 const send_magic_link = async (email, link) => {
     var subj = "Your sign in link",

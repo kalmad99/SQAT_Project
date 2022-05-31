@@ -1,6 +1,7 @@
 import axios from "axios"
 
-const baseURL = "https://e273-197-156-111-161.eu.ngrok.io"
+// const baseURL = "https://e909-197-156-118-253.eu.ngrok.io"
+const baseURL = "http://localhost:8080"
 
 export const getToken = () => {
     return (
