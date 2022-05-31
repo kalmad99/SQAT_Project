@@ -1,15 +1,13 @@
 const express = require('express');
 const Election = require('../models/election');
 const router = express.Router()
-const Result = require('../models/result')
 var cors = require('cors')
 
 
 //get election result
 router.get('/:id', cors(), async (req, res, next) => {
     try {
-        const sort = { voteCount: 1, name: 1 };
-        const election = await Election.findOne({_id: req.params.id}).sort(sort)
+        const election = await Election.findOne({_id: req.params.id})
         var results = [];
         for (var i = 0; i < election.candidates.length; i++) {
             var result = {
@@ -23,13 +21,13 @@ router.get('/:id', cors(), async (req, res, next) => {
         res.json({
             status: 'success',
             code: 200,
-            data: results
+            data: results.sort((a, b) => b.voteCount - a.voteCount || a.name.localeCompare(b.name))
         })
     } catch (e) {
         res.json({
             status: 'err',
             code: 500,
-            message: e,
+            message: "Can't get Election Results",
         });
     }
 });

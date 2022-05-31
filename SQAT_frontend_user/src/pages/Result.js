@@ -52,11 +52,12 @@ function Result() {
 
     const getElection = async (id) => {
         try {
-            const result = await axios.get('/elections/' + id, {
+            const result = await axios.get('/results/' + id, {
                 headers: {
                     Authorization: 'Bearer ' + token  //the token is a variable which holds the token
                 }
             })
+            console.log(result)
             setElection(result.data.data);
         } catch (error) {
             setHasError(true);
@@ -121,14 +122,14 @@ function Result() {
                                         <Typography className={classes.my_typogrphy} variant='h3'>2</Typography>
                                         <Typography className={classes.my_typogrphy} variant='h6'>nd</Typography>
                                     </Box >
-                                    <Avatar className={classes.small}></Avatar>
+                                    <Avatar className={classes.large} src="https://randomuser.me/api/portraits/women/81.jpg"></Avatar>
                                     <Box mt={0.7}>
 
-                                        <Typography className={classes.my_typogrphy}>{election.candidates[1].fullName}</Typography>
+                                        <Typography className={classes.my_typogrphy}>{election[1].name + " " + election[1].fname}</Typography>
                                     </Box>
                                     <Box display="flex" alignItems="center" mb={0.5}>
-                                        <Typography className={classes.my_typogrphy} variant='h3'>{election.candidates[1].voteCount}</Typography>
-                                        <Typography className={classes.my_typogrphy} variant='h6'>vote</Typography>
+                                        <Typography className={classes.my_typogrphy} variant='h3'>{election[1].voteCount}</Typography>
+                                        <Typography className={classes.my_typogrphy} variant='h6'>votes</Typography>
                                     </Box >
 
                                 </Box>
@@ -138,14 +139,14 @@ function Result() {
                                         <Typography className={classes.my_typogrphy} variant='h3'>1</Typography>
                                         <Typography className={classes.my_typogrphy} variant='h6'>st</Typography>
                                     </Box >
-                                    <Avatar className={classes.large}></Avatar>
+                                    <Avatar className={classes.large} src="https://randomuser.me/api/portraits/women/81.jpg"></Avatar>
                                     <Box mt={0.7}>
 
-                                        <Typography className={classes.my_typogrphy}>{election.candidates[0].fullName}</Typography>
+                                        <Typography className={classes.my_typogrphy}>{election[0].name + " " + election[0].fname}</Typography>
                                     </Box>
                                     <Box display="flex" alignItems="center" mb={4.5}>
-                                        <Typography className={classes.my_typogrphy} variant='h3'>{election.candidates[0].voteCount}</Typography>
-                                        <Typography className={classes.my_typogrphy} variant='h6'>vote</Typography>
+                                        <Typography className={classes.my_typogrphy} variant='h3'>{election[0].voteCount}</Typography>
+                                        <Typography className={classes.my_typogrphy} variant='h6'>votes</Typography>
                                     </Box >
                                 </Box>
 
@@ -154,14 +155,14 @@ function Result() {
                                         <Typography className={classes.my_typogrphy} variant='h3'>3</Typography>
                                         <Typography className={classes.my_typogrphy} variant='h6'>rd</Typography>
                                     </Box >
-                                    <Avatar className={classes.small}></Avatar>
+                                    <Avatar className={classes.large} src="https://randomuser.me/api/portraits/women/81.jpg"></Avatar>
                                     <Box mt={0.7}>
 
-                                        <Typography className={classes.my_typogrphy}>{election.candidates[2].fullName}</Typography>
+                                        <Typography className={classes.my_typogrphy}>{election[2].name + " " + election[2].fname}</Typography>
                                     </Box>
                                     <Box display="flex" alignItems="center" mb={0.5}>
-                                        <Typography className={classes.my_typogrphy} variant='h3'>{election.candidates[1].voteCount}</Typography>
-                                        <Typography className={classes.my_typogrphy} variant='h6'>vote</Typography>
+                                        <Typography className={classes.my_typogrphy} variant='h3'>{election[2].voteCount}</Typography>
+                                        <Typography className={classes.my_typogrphy} variant='h6'>votes</Typography>
                                     </Box >
                                 </Box>
 
