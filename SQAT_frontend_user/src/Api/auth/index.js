@@ -37,9 +37,6 @@ export const loginWithMagicLink = async (email, link) => {
 export const verifyWithMagicLink = async (email, link) => {
     try {
         console.log("verify called")
-        const { data: result } = await axios.post("/verify", { email, link })
-
-        console.log("result--", result);
         return result;
     } catch (error) {
         console.log(error)
