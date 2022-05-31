@@ -1,93 +1,8 @@
 const { Router } = require("express");
 const auth = require("../middleware/auth");
 const router = Router();
-<<<<<<< HEAD
-const Admin = require('../models/admin')
-const User = require('../models/user')
-const jwt = require('jsonwebtoken')
-const config = require('../config')
-const bcrypt = require('bcryptjs')
-const { v4: uuidv4 } = require('uuid');
-const { send_magic_link } = require('./emailController')
-var cors = require('cors')
-
-
-// Login router
-router.post('/enter', cors(), async (req, res) => {
-    const { email, link } = req.body;
-    if (!email)
-        return res.json({ ok: false, message: "Email field is required" });
-    try {
-        const user = await User.findOne({ email: email });
-        if (!link) {
-            console.log("No magic")
-            try {
-                const user = await User.findOneAndUpdate(
-                    { email: email },
-                    { magicLink: uuidv4(), magicLinkExpired: false },
-                    { returnDocument: 'after' }
-                );
-                await send_magic_link(email, user.magicLink, "login")
-                res.send({ ok: true, message: 'Hit the link in email to sign in' })
-            } catch {
-                res.json({
-                    status: "failed",
-                    code: 500,
-                    message: "Plese try again! Can not Login",
-                });
-            }
-        } else if (user.magicLink == link && !user.magicLinkExpired) {
-            const token = jwt.sign({ id: user.userId }, config.secret, {
-                expiresIn: '24h'
-            });
-            try {
-                await User.findOneAndUpdate(
-                    { email: email },
-                    { magicLinkExpired: true }
-                )
-                res.json({
-                    status: "success",
-                    code: 200,
-                    data: token,
-                    message: "Login was Successful"
-                });
-            } catch {
-                res.status(500).send('Plese try again , "Can not Login"');
-            }
-        } else {
-            return res.json({
-                status: "failed",
-                code: 400,
-                message: "Magic link expired or incorrect",
-            });
-        }
-    } catch (error) {
-        res.status(500).send('Plese try again , "Can not Login"');
-    };
-});
-
-router.post('/', async (req, res) => {
-    try {
-        const { email, password } = req.body;
-        const user = await User.findOne({ email: email })
-        if (!user) {
-            return res.status(404).send("Email/Password is Incorrect");
-        }
-        const validPassword = await bcrypt.compare(req.body.password, user.password);
-        if (!validPassword) {
-            return res.status(404).send("Email/Password is Incorrect")
-        } else {
-            const token = jwt.sign({ id: user.userId }, config.secret, {
-                expiresIn: '24h'
-            });
-            res.status(200).json({ auth: true, token });
-
-        }
-    } catch (e) {
-=======
 const Admin = require("../models/admin");
 const User = require("../models/user");
-// const verifyToken = require('./verifyToken')
 const jwt = require("jsonwebtoken");
 const config = require("../config");
 const bcrypt = require("bcryptjs");
@@ -97,14 +12,12 @@ var cors = require("cors");
 
 // Login router
 router.post("/enter", cors(), async (req, res) => {
-  const { email, magicLink } = req.body;
-  console.log(email);
+  const { email, link } = req.body;
   if (!email)
     return res.json({ ok: false, message: "Email field is required" });
   try {
     const user = await User.findOne({ email: email });
-    console.log(user);
-    if (!magicLink) {
+    if (!link) {
       console.log("No magic");
       try {
         const user = await User.findOneAndUpdate(
@@ -112,58 +25,49 @@ router.post("/enter", cors(), async (req, res) => {
           { magicLink: uuidv4(), magicLinkExpired: false },
           { returnDocument: "after" }
         );
-        // send email with magic link
-        console.log(user);
-        await send_magic_link(email, user.magicLink);
+        await send_magic_link(email, user.magicLink, "login");
         res.send({ ok: true, message: "Hit the link in email to sign in" });
       } catch {
->>>>>>> [Web-Admin] further web admin testing
+        res.json({
+          status: "failed",
+          code: 500,
+          message: "Plese try again! Can not Login",
+        });
+      }
+    } else if (user.magicLink == link && !user.magicLinkExpired) {
+      const token = jwt.sign({ id: user.userId }, config.secret, {
+        expiresIn: "24h",
+      });
+      try {
+        await User.findOneAndUpdate(
+          { email: email },
+          { magicLinkExpired: true }
+        );
+        res.json({
+          status: "success",
+          code: 200,
+          data: token,
+          message: "Login was Successful",
+        });
+      } catch {
         res.status(500).send('Plese try again , "Can not Login"');
       }
-    } else if (user.magicLink == magicLink && !user.magicLinkExpired) {
-      const token = jwt.sign(user.toJSON(), config.secret, { expiresIn: "1h" }); //{expiresIn:'365d'}
-      await User.findOneAndUpdate({ email: email }, { magicLinkExpired: true });
-      res.json({ ok: true, message: "Welcome back", token, email });
     } else {
       return res.json({
-        ok: false,
+        status: "failed",
+        code: 400,
         message: "Magic link expired or incorrect",
       });
     }
   } catch (error) {
-    res.json({ ok: false, error });
+    res.status(500).send('Plese try again , "Can not Login"');
   }
 });
 
-<<<<<<< HEAD
-router.post('/admin', async (req, res) => {
-    try {
-        const { email, password } = req.body;
-        const admin = await Admin.findOne({ email: email })
-        if (!admin) {
-            return res.status(404).send("Email/Password is Incorrect");
-        }
-        const validPassword = await bcrypt.compare(req.body.password, admin.password);
-        if (!validPassword) {
-            return res.status(404).send("Email/Password is Incorrect")
-        } else {
-            const token = jwt.sign({ id: admin._id }, config.secret, {
-                expiresIn: '24h'
-            });
-            res.status(200).json({ auth: true, token });
-
-        }
-    } catch (e) {
-        res.status(500).send('Plese try again , "Can not Login"');
-=======
 router.post("/", async (req, res) => {
   try {
     const { email, password } = req.body;
-    console.log("email--", email, password);
-    console.log("password--", password);
-    console.log("req.body--", req.body);
     const user = await User.findOne({ email: email });
-    console.log("User--", user);
     if (!user) {
       return res.status(404).send("Email/Password is Incorrect");
     }
@@ -180,7 +84,6 @@ router.post("/", async (req, res) => {
       res.status(200).json({ auth: true, token });
     }
   } catch (e) {
-    console.log(e);
     res.status(500).send('Plese try again , "Can not Login"');
   }
 });
@@ -188,14 +91,9 @@ router.post("/", async (req, res) => {
 router.post("/admin", async (req, res) => {
   try {
     const { email, password } = req.body;
-    console.log("email--", email, password);
-    console.log("password--", password);
-    console.log("req.body--", req.body);
     const admin = await Admin.findOne({ email: email });
-    console.log("Admin--", admin);
     if (!admin) {
       return res.status(404).send("Email/Password is Incorrect");
->>>>>>> [Web-Admin] further web admin testing
     }
     const validPassword = await bcrypt.compare(
       req.body.password,
@@ -210,7 +108,6 @@ router.post("/admin", async (req, res) => {
       res.status(200).json({ auth: true, token });
     }
   } catch (e) {
-    console.log(e);
     res.status(500).send('Plese try again , "Can not Login"');
   }
 });
@@ -222,21 +119,12 @@ router.post("/logout", function (req, res) {
 });
 
 const verify_token = (req, res) => {
-<<<<<<< HEAD
-    const token = req.headers.authorization;
-    jwt.verify(token, config.secret, (err, succ) => {
-        err
-            ? res.json({ ok: false, message: "something went wrong" })
-            : res.json({ ok: true, succ });
-    });
-=======
   const token = req.headers.authorization;
   jwt.verify(token, config.secret, (err, succ) => {
     err
       ? res.json({ ok: false, message: "something went wrong" })
       : res.json({ ok: true, succ });
   });
->>>>>>> [Web-Admin] further web admin testing
 };
 
 module.exports = router;
