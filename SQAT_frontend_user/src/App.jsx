@@ -1,7 +1,7 @@
 // import { makeStyles } from "@material-ui/core";
 // import { purple } from "@material-ui/core/colors";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import HomeScreen from "./pages/HomeScreen";
 import Login from "./pages/Login";
 import Navbar from "./components/Navbar";
@@ -13,7 +13,8 @@ import VotePage from "./pages/VotePage";
 import CandidateProfilePage from "./pages/CandidateProfilePage";
 import PrivateRoute from "./RouteHandler/privateRoute";
 import Countdown from "./components/countdown";
-import VerifyMagic from "./pages/VerifyMagic";
+import VerifyLoginMagic from "./pages/VerifyLoginMagic";
+import VerifyVoteMagic from "./pages/VerifyVoteMagic";
 
 // const useStyles = makeStyles({
 //   root: {
@@ -77,9 +78,10 @@ function App() {
           </PrivateRoute>
         } />
         <Route path="*" element={<Navigate to="/" replace />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/login/:email/:link" exact element={<VerifyMagic />}
-  />
+        <Route path="/login" element={<Login/> } />
+        
+        <Route path="/login/enter/:email/:link" exact element={<VerifyLoginMagic />}/>
+        <Route path="/verify/:email/:link" exact element={<VerifyVoteMagic />}/>
       </Routes>
     </Router>
   );

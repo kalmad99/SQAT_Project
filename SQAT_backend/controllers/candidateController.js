@@ -10,25 +10,22 @@ const cors = require('cors')
 
 //get all candidates
 router.get('/', cors(), async (req, res, next) => {
-    try {
-        let query = {}
-        if (req.query.query){
-            query.$or = [
-                { "name": { $regex: req.query.query, $options: 'i'}},
-            ]
-        }
-        var candidates = await Candidate.find(query);
-        res.json(candidates);
-    } catch (e) {
-        res.json({
-            status: 'err',
-            code: 500,
-            message: e,
-        });
+  try {
+    let query = {}
+    if (req.query.query) {
+      query.$or = [
+        { "name": { $regex: req.query.query, $options: 'i' } },
+      ]
     }
     var candidates = await Candidate.find(query);
     res.json(candidates);
-  
+  } catch (e) {
+    res.json({
+      status: 'err',
+      code: 500,
+      message: e,
+    });
+  }
 });
 
 // get candidate detail
@@ -55,7 +52,6 @@ router.patch("/", cors(), async function (req, res, next) {
     const updatedCandidate = await Candidate.findByIdAndUpdate(candidate._id, {
       status: !candidate.status,
     });
-    console.log(updatedCandidate);
     res.send(updatedCandidate);
   } catch (error) {
     res.status(400).json({ message: error.message });
@@ -82,40 +78,6 @@ router.post(
     });
     if (req.file) {
       candidate.profile = req.file.path.substring(8);
-    }
-    try {
-      var check = await User.findOne({ email: req.body.email });
-      console.log(check, req.body.email);
-      if (check) {
-        return res.status(404).send("User Already Exists!");
-      }
-      check = await Candidate.findOne({ id: req.body.id });
-      if (check) {
-        return res.status(404).send("User Already Exists!");
-      }
-      check = await Voter.findOne({ id: req.body.id });
-      if (check) {
-        return res.status(404).send("User Already Exists!");
-      }
-
-      const newCandidate = await candidate.save();
-      const salt = await bcrypt.genSalt(10);
-      const user = new User({
-        userId: newCandidate._id,
-        email: newCandidate.email,
-        role: "candidate",
-      });
-      user.password = await bcrypt.hash("password", salt);
-      await user.save();
-
-      res.json({
-        status: "success",
-        code: 201,
-        message: "Candidate Added",
-        data: newCandidate,
-      });
-    } catch (err) {
-      res.status(400).json({ message: err.message });
     }
     try {
       var check = await User.findOne({ email: req.body.email });

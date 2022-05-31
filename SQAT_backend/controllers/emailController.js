@@ -11,11 +11,19 @@ const transport = nodemailer.createTransport({
     },
 });
 
-const URL = 'http://localhost:3000/login/'
+var URL = ''
 
-const send_magic_link = async (email, link) => {
-    var subj = "Your sign in link",
-        body = '<p>Hello friend and welcome back. This is your link to sign in to your account: ' + (URL + email + '/' + link) + '</p><p>Needless to remind you not to share this link with anyone 🤫</p>'
+const send_magic_link = async (email, link, which) => {
+    var subj, body;
+    if (which === "login") {
+        URL = "http://localhost:3000/login/enter/"
+        subj = "Signin link"
+        body = '<p>Welcome to our website. This is your link to sign in to your account: ' + (URL + email + '/' + link) + '</p><p>Needless to remind you not to share this link with anyone</p>'
+    } else {
+        URL = "http://localhost:3000/verify/"
+        subj = "Voting Verification Link"
+        body = '<p>This is your Voting Verification link: ' + (URL + email + '/' + link) + '</p><p>Click on the link and you will be redirected to the voting page</p>'
+    }
 
     const mailOptions = {
         to: email,
@@ -25,7 +33,7 @@ const send_magic_link = async (email, link) => {
     }
     try {
         const response = await transport.sendMail(mailOptions)
-        console.log('Link sent 📬')
+        // console.log('Link sent 📬')
         return ({ ok: true, message: 'email sent' })
     }
     catch (err) {

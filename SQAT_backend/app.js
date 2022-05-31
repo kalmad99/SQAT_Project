@@ -10,10 +10,10 @@ app.use(express.urlencoded({ extended: false }))
 const authRouter = require('./controllers/authController');
 const ideaRouter = require('./controllers/ideaController');
 const voterRouter = require('./controllers/voterController');
-const voteRouter = require('./controllers/voteController');
 const candidateRouter = require('./controllers/candidateController');
 const electionRouter = require('./controllers/electionController');
-const resultRouter = require('./controllers/resultController')
+const resultRouter = require('./controllers/resultController');
+const verifyRouter = require('./controllers/verificationController');
 
 // app.use('/auth', authRouter)
 app.use('/login', authRouter)
@@ -22,6 +22,6 @@ app.use('/voters', voterRouter)
 app.use('/candidates', candidateRouter)
 app.use('/elections', electionRouter)
 app.use('/results', resultRouter)
-app.use('/vote', voteRouter)
+app.use('/verify', verifyRouter)
 
 module.exports = app;

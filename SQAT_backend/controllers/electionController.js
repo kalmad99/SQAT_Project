@@ -113,15 +113,12 @@ router.patch('/', async function (req, res, next) {
   if (!election) {
       return res.status(400).send("Election doesn't Exist!");
   } else {
-      console.log(election)
       for (var i=0; i < election.candidates.length; i++){
           if (election.candidates[i]._id.equals(req.body.candidateId)){
-              console.log("Here")
               election.candidates[i].voteCount += 1
               election.markModified('candidates');
           }
       }
-      console.log("After", election)
   }
   try {
       const updatedElection = await election.save()
@@ -132,7 +129,7 @@ router.patch('/', async function (req, res, next) {
           data: updatedElection
       })
   } catch (err) {
-      res.status(400).json({ message: "Can't Vote" })
+      res.status(500).json({ message: "Can't Vote" })
   }
 })
 module.exports = router;
