@@ -30,9 +30,23 @@ export const loginWithMagicLink = async (email, link) => {
 
         console.log("result--", result);
         
-        if (result.auth) {
-            localStorage.setItem("token", result.token)
+        if (result.data) {
+            localStorage.setItem("token", result.data)
         }
+        return result;
+    } catch (error) {
+        console.log(error)
+        console.log("this for error display checkup")
+        throw new Error("Invalid Email or Password")
+    }
+}
+
+export const verifyWithMagicLink = async (email, link) => {
+    try {
+        console.log("verify called")
+        const { data: result } = await axios.post("/verify", { email, link })
+
+        console.log("result--", result);
         return result;
     } catch (error) {
         console.log(error)

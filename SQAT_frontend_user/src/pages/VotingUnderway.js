@@ -3,6 +3,11 @@ import React, { useEffect, useRef, useState } from 'react'
 // import { Link } from 'react-router-dom';
 import Link from '@mui/material/Link';
 import Voting_Svg from '../Voting_Svg'
+import { verifyWithMagicLink } from '../Api/auth';
+import axios, { getToken } from '../Api/axiosConfig';
+import { loggedin_user } from '../RouteHandler/loggedinuser';
+import { SpinnerCircularFixed } from "spinners-react";
+
 // import Navbar from '../Navbar'
 
 const useStyles = makeStyles((theme) => ({
@@ -46,6 +51,12 @@ const useStyles = makeStyles((theme) => ({
 function VotingUnderway() {
 
     const classes = useStyles()
+    const token = getToken()
+    const [user, setUser] = useState()
+    const [role, setRole] = useState('')
+    const payload = loggedin_user()
+    const [isUserLoading, setIsUserLoading] = useState(true)
+    const [userHasError, setUserHasError] = useState(false)
 
     const [timerDays, setTimerDays] = useState('00')
     const [timerHours, setTimerHours] = useState('00')
@@ -54,7 +65,7 @@ function VotingUnderway() {
 
     let interval = useRef()
     const startTimer = () => {
-        const countdownDate = new Date('Apr 11 , 2022 00:00:00').getTime()
+        const countdownDate = new Date('Jun 1 , 2022 00:00:00').getTime()
 
         interval = setInterval(() => {
             const now = new Date().getTime()
@@ -77,129 +88,187 @@ function VotingUnderway() {
         }, 1000)
     }
 
+
+    useEffect(() => {
+        const getUser = async () => {
+            try {
+                var result = await axios.get('/voters/' + payload.id, {
+                    headers: {
+                        Authorization: 'Bearer ' + token  //the token is a variable which holds the token
+                    }
+                })
+                if (!result.data.data) {
+                    result = await axios.get('/candidates/' + payload.id, {
+                        headers: {
+                            Authorization: 'Bearer ' + token  //the token is a variable which holds the token
+                        }
+                    })
+                    setRole('candidate')
+                } else {
+                    setRole('voter')
+                }
+                setUser(result.data.data);
+            } catch (error) {
+                setUserHasError(true);
+            }
+            setIsUserLoading(false)
+        }
+        getUser()
+    }, [payload.id, token])
+
     useEffect(() => {
         startTimer()
         return () => {
             clearInterval(interval.current)
         }
     })
+    const verifyVote = async (email) => {
+        console.log(email)
+        const response = await verifyWithMagicLink(email);
+        console.log("response", response);
+        alert(response.message);
+        window.close()
+    }
+
     return (
         <Grid container className={classes.body}>
-            <Grid container direction='row' >
-                <Grid xs={12} sm={9} md={7} lg={7} container justifyContent='center' alignContent='flex-start' >
-                    <Box display="flex">
+            {isUserLoading && (
+                <Grid container justifyContent='center' alignItems="center">
+                    <SpinnerCircularFixed
+                        size={50}
+                        thickness={100}
+                        speed={100}
+                        color="#36ad47"
+                        secondaryColor="rgba(0, 0, 0, 0.44)"
+                    />
+                </Grid>
+            )}
+            {(userHasError) && (
+                <Grid container justifyContent='center' >
+                    <h3>Ooops something went wrong</h3>
+                </Grid>
+            )}
+            {!isUserLoading && role === 'candidate' && (
+                <Grid container justifyContent='center' >
+                    <Typography>You are a candidate, you cant vote!</Typography>
+                </Grid>
+            )}
+            {!isUserLoading && role === 'voter' && user && (
+                <Grid container direction='row' >
+                    <Grid xs={12} sm={9} md={7} lg={7} container justifyContent='center' alignContent='flex-start' >
+                        <Box display="flex">
 
-                        <Typography className={classes.web_typogrphy} color="white" variant='h1'  >
-                            Section <span style={{ color: "#00D05A", fontFamily: "Poppins", fontWeight: "SemiBold" }}>
-                                Election</span><br /> is Underwayy
+                            <Typography className={classes.web_typogrphy} color="white" variant='h1'  >
+                                Section <span style={{ color: "#00D05A", fontFamily: "Poppins", fontWeight: "SemiBold" }}>
+                                    Election</span><br /> is Underwayy
 
-                        </Typography>
-                        <Typography color="white" variant='h3' className={classes.mobile_typograpy}  >
-                            Section <span style={{ color: "#00D05A", fontFamily: "Poppins", fontWeight: "SemiBold" }}>
-                                Election</span><br /> is Underway
+                            </Typography>
+                            <Typography color="white" variant='h3' className={classes.mobile_typograpy}  >
+                                Section <span style={{ color: "#00D05A", fontFamily: "Poppins", fontWeight: "SemiBold" }}>
+                                    Election</span><br /> is Underway
 
-                        </Typography>
-                    </Box>
-                    <Grid item xs={9}
-                        className={classes.web_layout}
-                    >
+                            </Typography>
+                        </Box>
+                        <Grid item xs={9}
+                            className={classes.web_layout}
+                        >
+
+                            <Box display="flex" justifyContent="space-around"
+                                // style={{ borderStyle: "dashed", width: "100%", borderColor: "black" }}
+                                mb={5}
+                            >
+                                <Box display="flex" flexDirection="column">
+                                    <Typography className={classes.my_typograghy} variant='h1'>{timerDays}</Typography>
+                                    <Typography className={classes.my_typograghy} variant='h4'>Days</Typography>
+                                </Box>
+                                <Box display="flex" flexDirection="column">
+                                    <Typography className={classes.my_typograghy} variant='h1'>{timerHours}</Typography>
+                                    <Typography className={classes.my_typograghy} variant='h4'>Hours</Typography>
+                                </Box>
+                                <Box display="flex" flexDirection="column">
+                                    <Typography className={classes.my_typograghy} variant='h1'>{timerMinutes}</Typography>
+                                    <Typography className={classes.my_typograghy} variant='h4'>Mintues</Typography>
+                                </Box>
+                                <Box display="flex" flexDirection="column">
+                                    <Typography className={classes.my_typograghy} variant='h1'>{timerSeconds}</Typography>
+                                    <Typography className={classes.my_typograghy} variant='h4'>Seconds</Typography>
+                                </Box>
+                                {/* </Box> */}
+                            </Box>
+
+                        </Grid>
+                        <Box display="flex" ml={15}
+                            style={{ width: "100%" }}
+                            className={classes.web_layout}>
+
+                            <Button variant="outlined"
+                                style={{
+                                    borderRadius: 5,
+                                    padding: "10px 36px",
+                                    fontSize: "14px",
+                                    borderColor: "#00D05A",
+                                    minWidth: "150px"
+                                }}
+                            >
+                                <Link onClick={()=>verifyVote(user.email)} underline="none" color="#00D05A">
+                                    Enter Election
+                                </Link>
+                            </Button>
+                        </Box>
+
+                    </Grid>
+                    <Grid container xs={12} sm={12} md={5} lg={5} alignContent="center" justifyContent='center'>
+                        <Voting_Svg />
+                    </Grid>
+                    <Grid item xs={12} className={classes.mobile_layout}>
 
                         <Box display="flex" justifyContent="space-around"
-                            // style={{ borderStyle: "dashed", width: "100%", borderColor: "black" }}
+                            style={{ borderStyle: "dashed", width: "100%", borderColor: "black" }}
                             mb={5}
+
                         >
                             <Box display="flex" flexDirection="column">
-                                <Typography className={classes.my_typograghy} variant='h1'>{timerDays}</Typography>
-                                <Typography className={classes.my_typograghy} variant='h4'>Days</Typography>
+                                <Typography className={classes.my_typograghy} variant='h3'>{timerDays}</Typography>
+                                <Typography className={classes.my_typograghy} variant='h6'>Days</Typography>
                             </Box>
                             <Box display="flex" flexDirection="column">
-                                <Typography className={classes.my_typograghy} variant='h1'>{timerHours}</Typography>
-                                <Typography className={classes.my_typograghy} variant='h4'>Hours</Typography>
+                                <Typography className={classes.my_typograghy} variant='h3'>{timerHours}</Typography>
+                                <Typography className={classes.my_typograghy} variant='h6'>Hours</Typography>
                             </Box>
                             <Box display="flex" flexDirection="column">
-                                <Typography className={classes.my_typograghy} variant='h1'>{timerMinutes}</Typography>
-                                <Typography className={classes.my_typograghy} variant='h4'>Mintues</Typography>
+                                <Typography className={classes.my_typograghy} variant='h3'>{timerMinutes}</Typography>
+                                <Typography className={classes.my_typograghy} variant='h6'>Mintues</Typography>
                             </Box>
                             <Box display="flex" flexDirection="column">
-                                <Typography className={classes.my_typograghy} variant='h1'>{timerSeconds}</Typography>
-                                <Typography className={classes.my_typograghy} variant='h4'>Seconds</Typography>
+                                <Typography className={classes.my_typograghy} variant='h3'>{timerSeconds}</Typography>
+                                <Typography className={classes.my_typograghy} variant='h6'>Seconds</Typography>
                             </Box>
                             {/* </Box> */}
                         </Box>
 
                     </Grid>
-                    <Box display="flex" ml={15}
-                        style={{ width: "100%" }}
-                        className={classes.web_layout}>
+                    <Grid item xs={12} className={classes.mobile_layout}>
+                        <Grid container justifyContent='center'
 
-                        <Button variant="outlined"
-                            style={{
-                                borderRadius: 5,
-                                padding: "10px 36px",
-                                fontSize: "14px",
-                                borderColor: "#00D05A",
-                                minWidth: "150px"
-                            }}
                         >
-                            <Link href="#" underline="none" color="#00D05A">
-                                Enter Election
-                            </Link>
-                        </Button>
-                    </Box>
+                            <Button variant="outlined"
+                                style={{
+                                    borderRadius: 5,
+                                    padding: "10px 36px",
+                                    fontSize: "14px",
+                                    borderColor: "#00D05A",
+                                    minWidth: "150px"
+                                }}
+                            >
+                                <Link onClick={()=>verifyVote(user.email)} underline="none" color="#00D05A">
+                                    Enter Election
+                                </Link>
+                            </Button>
 
-                </Grid>
-                <Grid container xs={12} sm={12} md={5} lg={5} alignContent="center" justifyContent='center'>
-                    <Voting_Svg />
-                </Grid>
-                <Grid item xs={12} className={classes.mobile_layout}>
-
-                    <Box display="flex" justifyContent="space-around"
-                        style={{ borderStyle: "dashed", width: "100%", borderColor: "black" }}
-                        mb={5}
-
-                    >
-                        <Box display="flex" flexDirection="column">
-                            <Typography className={classes.my_typograghy} variant='h3'>{timerDays}</Typography>
-                            <Typography className={classes.my_typograghy} variant='h6'>Days</Typography>
-                        </Box>
-                        <Box display="flex" flexDirection="column">
-                            <Typography className={classes.my_typograghy} variant='h3'>{timerHours}</Typography>
-                            <Typography className={classes.my_typograghy} variant='h6'>Hours</Typography>
-                        </Box>
-                        <Box display="flex" flexDirection="column">
-                            <Typography className={classes.my_typograghy} variant='h3'>{timerMinutes}</Typography>
-                            <Typography className={classes.my_typograghy} variant='h6'>Mintues</Typography>
-                        </Box>
-                        <Box display="flex" flexDirection="column">
-                            <Typography className={classes.my_typograghy} variant='h3'>{timerSeconds}</Typography>
-                            <Typography className={classes.my_typograghy} variant='h6'>Seconds</Typography>
-                        </Box>
-                        {/* </Box> */}
-                    </Box>
-
-                </Grid>
-                <Grid item xs={12} className={classes.mobile_layout}>
-                    <Grid container justifyContent='center'
-
-                    >
-                        <Button variant="outlined"
-                            style={{
-                                borderRadius: 5,
-                                padding: "10px 36px",
-                                fontSize: "14px",
-                                borderColor: "#00D05A",
-                                minWidth: "150px"
-                            }}
-                        >
-                            <Link href="/candidate_list" underline="none" color="#00D05A">
-                                Enter Election
-                            </Link>
-                        </Button>
-
+                        </Grid>
                     </Grid>
                 </Grid>
-
-            </Grid>
+            )}
         </Grid>
     )
 }

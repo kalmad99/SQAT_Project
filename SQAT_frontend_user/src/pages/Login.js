@@ -14,10 +14,13 @@ import { blue, green, purple, red, yellow } from "@material-ui/core/colors";
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router";
 import { login, loginWithMagicLink } from "../Api/auth";
+import { getToken } from "../Api/axiosConfig";
+import { loggedin_user } from "../RouteHandler/loggedinuser";
 
 function Login() {
   const initialValues = { email: "", password: "" };
 
+  const [authenticated, setAuthenticated] = useState(getToken())
   const [formValues, setFormValues] = useState(initialValues);
   const [formErrors, setFormErrors] = useState({});
   const [isSubmit, setIsSubmit] = useState(false);
@@ -26,20 +29,33 @@ function Login() {
   const navigate = useNavigate();
 
   let params = useParams();
-
+  console.log("Params", params)
+  
   useEffect(() => {
-    const verifyMagicLink = async () => {
-      if (params.link) {
-          console.log("params.link--", params.link);
-        const response = await loginWithMagicLink(params.email, params.link);
-        if (response.status === 200) {
-          navigate("/");
-        }
+    const getUser = () => {
+      const result = getToken()
+      console.log("Result Local Storage", result)
+      setAuthenticated(result)
+      if (authenticated){
+        navigate('/')
       }
-    };
+    }
+    // const verifyMagicLink = async () => {
+    //   if (params.link) {
+    //       console.log("params.link--", params.link);
+    //     const response = await loginWithMagicLink(params.email, params.link);
+    //     console.log(response)
+    //     if (response.status === 200) {
+    //       navigate('/')
+    //       setAuthenticated(true)
+    //     }
+    //   }
+    // };
     // debugger
-    verifyMagicLink();
-  }, []);
+    // verifyMagicLink();
+    getUser()
+  }, [authenticated, navigate]);
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -48,7 +64,6 @@ function Login() {
     // const response = await login(formValues.email, formValues.password);
     console.log("response", response);
     alert(response.message);
-
     // setIsSubmit(true)
     // setFormValues(initialValues)
     // navigate('/')

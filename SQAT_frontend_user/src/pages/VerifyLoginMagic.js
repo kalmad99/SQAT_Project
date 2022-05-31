@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { loginWithMagicLink } from "../Api/auth";
 
-export default function VerifyMagic(props) {
+export default function VerifyLoginMagic(props) {
   let params = useParams();
   let navigate = useNavigate();
 
@@ -11,11 +11,12 @@ export default function VerifyMagic(props) {
     // props.signIn(params.email, params.link)
     const verifyMagicLink = async () => {
       if (params.link) {
-        console.log("params.link--", params.link);
+        console.log("params.link--", params.link, params.email);
         const response = await loginWithMagicLink(params.email, params.link);
         console.log("response", response);
-        if (response.status === 200) {
-          navigate("/");
+        if (response.code === 200) {
+          alert(response.message);
+          window.close()
         }
       }
     };

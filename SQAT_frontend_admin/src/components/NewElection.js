@@ -3,7 +3,7 @@ import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
 
 export default function NewElection() {
-    const navigate = useNavigate
+    const navigate = useNavigate()
 
     const initialValues = {
         dept: "", section: "", batch: "",
