@@ -29,11 +29,11 @@ const VotersTable = ({ columns, data }) => {
         usePagination
     );
 
-    let navigate = useNavigate();
-    const routeChange = () => {
-        let path = window.location.pathname + '/newuser';
-        navigate(path);
-    }
+    // let navigate = useNavigate();
+    // const routeChange = () => {
+    //     let path = window.location.pathname + '/newuser';
+    //     navigate(path);
+    // }
 
     return (
         <div className="h-full w-full">

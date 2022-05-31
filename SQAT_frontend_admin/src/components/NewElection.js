@@ -13,7 +13,7 @@ export default function NewElection() {
     const [isSubmit, setIsSubmit] = useState(false)
 
     const addElection = async (formValues) => {
-        axios.post('https://e909-197-156-118-253.eu.ngrok.io/elections', formValues)
+        axios.post('http://localhost:8080/elections', formValues)
             .then(function (response) {
                 console.log(response);
             })

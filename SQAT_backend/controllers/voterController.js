@@ -7,23 +7,21 @@ const bcrypt = require("bcryptjs");
 var cors = require("cors");
 
 //get all voters
-router.get('/', async (req, res, next) => {
-    try {
-        let query = {}
-        if (req.query.query){
-            query.$or = [
-                { "name": { $regex: req.query.query, $options: 'i'}},
-            ]
-        }
-        var voters = await Voter.find(query);
-        res.json(voters);
-    } catch (e) {
-        res.json({
-            status: 'err',
-            code: 500,
-            message: e,
-        });
+router.get("/", cors(), async (req, res, next) => {
+  try {
+    let query = {};
+    if (req.query.query) {
+      query.$or = [{ name: { $regex: req.query.query, $options: "i" } }];
     }
+    var voters = await Voter.find(query);
+    res.json(voters);
+  } catch (e) {
+    res.json({
+      status: "err",
+      code: 500,
+      message: e,
+    });
+  }
 });
 
 //add new voter
@@ -32,7 +30,7 @@ router.post("/", async function (req, res, next) {
     name: req.body.name,
     fname: req.body.fname,
     gname: req.body.gname,
-    fullName: req.body.name + req.body.fname,
+    fullName: req.body.name + " " + req.body.fname + " " + req.body.gname,
     email: req.body.email,
     id: req.body.id,
     dept: req.body.dept,

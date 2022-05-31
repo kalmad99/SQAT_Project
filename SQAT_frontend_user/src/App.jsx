@@ -13,6 +13,7 @@ import VotePage from "./pages/VotePage";
 import CandidateProfilePage from "./pages/CandidateProfilePage";
 import PrivateRoute from "./RouteHandler/privateRoute";
 import Countdown from "./components/countdown";
+import VerifyMagic from "./pages/VerifyMagic";
 
 // const useStyles = makeStyles({
 //   root: {
@@ -77,6 +78,8 @@ function App() {
         } />
         <Route path="*" element={<Navigate to="/" replace />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/login/:email/:link" exact element={<VerifyMagic />}
+  />
       </Routes>
     </Router>
   );

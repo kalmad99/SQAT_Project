@@ -21,9 +21,9 @@ export default function Result() {
     useEffect(() => {
         const getElectionDetail = async () => {
             try {
-                const elect = await axios.get('https://e909-197-156-118-253.eu.ngrok.io/elections/' + electionId);
+                const elect = await axios.get('http://localhost:8080/elections/' + electionId);
                 setElection(elect.data.data)
-                const result = await axios.get('https://e909-197-156-118-253.eu.ngrok.io/results/' + electionId);
+                const result = await axios.get('http://localhost:8080/results/' + electionId);
                 setCandidates(result.data.data);
             } catch (error) {
                 setHasError(true)
