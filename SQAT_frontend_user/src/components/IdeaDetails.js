@@ -26,22 +26,22 @@ function IdeaDetails(props) {
     }
 
     return (
-        <Grid item xs={12} >
+        <Grid item xs={12} data-cy="idea-card">
             <Grid container direction='column' alignContent='space-between' alignItems='center' spacing={3} >
                 {/* <Grid item xs={12}> */}
                 <Card className={classes.root} >
-                    <CardActionArea>
+                    <CardActionArea >
                         <CardMedia
                             className={classes.media}
                             image="/static/images/cards/contemplative-reptile.jpg"
                             title="Contemplative Reptile"
                         />
                         <CardContent>
-                            <Typography variant='subtitle1'>{props.userName}</Typography>
-                            <Typography gutterBottom variant="h5" component="h2">
+                            <Typography data-cy="idea-suggester" variant='subtitle1'>{props.userName}</Typography>
+                            <Typography data-cy="idea-title" gutterBottom variant="h5" component="h2">
                                 {props.title}
                             </Typography>
-                            <Typography variant="body2" color="textSecondary" component="p">
+                            <Typography data-cy="idea-desc" variant="body2" color="textSecondary" component="p">
                                 {/* Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut enim ligula platea euismod.
                                     Rutrum ut erat aenean faucibus orci posuere sed lectus. Massa urna nulla ornare vulputate ut dignissim.
                                 Ornare sapien sit at porttitor adipiscing imperdiet sed integer semper. */}
@@ -53,11 +53,12 @@ function IdeaDetails(props) {
                         <Grid container justifyContent='flex-end'>
                             <Button
                                 aria-label="reduce"
+                                data-cy="idea-like"
                                 onClick={async ()=>await clickHandler()}
                             >
-                                {props.liked ? <Favorite className={classes.selected} /> : <FavoriteOutlined className={classes.icons} />}
+                                {props.liked ? <Favorite data-cy="idea-like-filled" className={classes.selected} /> : <FavoriteOutlined data-cy="idea-like-outlined" className={classes.icons} />}
                             </Button>
-                            <Typography variant='subtitle1' className={classes.voteCount}>{props.voteCount}</Typography>
+                            <Typography data-cy="idea-count" variant='subtitle1' className={classes.voteCount}>{props.likeCount}</Typography>
                         </Grid>
                     </CardActions>
                 </Card>

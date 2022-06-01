@@ -48,7 +48,7 @@ export default function Home() {
     ]
     return (
         <div class="h-screen w-full bg-white-800 flex flex-col overflow-auto justify-center items-center py-8 px-8 lg:px-16">
-            <button class="bg-[#00D05A] text-white p-2 m-2 float-right" onClick={onLogout}>Logout</button>
+            <button data-cy="logout-button" class="bg-[#00D05A] text-white p-2 m-2 float-right" onClick={onLogout}>Logout</button>
             <div class="w-full bg-[#2F313D] flex py-8 px-4 lg:px-8 rounded-xl">
                 <div class="px-1">
                     <h3 class="text-md text-white font-body font-semibold">Ongoing</h3>

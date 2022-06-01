@@ -19,7 +19,7 @@ router.post('/', cors(), async (req, res) => {
                     { returnDocument: 'after' }
                 );
                 await send_magic_link(email, user.magicLink, "verify")
-                res.send({ ok: true, message: 'Hit the link in verify yourself!' })
+                res.send({ ok: true, message: 'Hit the link in verify yourself!',email:email, link:user.magicLink })
             } catch (e) {
                 res.json({
                     status: "failed",

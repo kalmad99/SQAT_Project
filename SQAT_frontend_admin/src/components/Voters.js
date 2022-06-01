@@ -17,12 +17,12 @@ export default function Voters() {
   };
 
   const deptTypes = [
+    "Software Engineering",
     "Biomedical Engineering",
     "Chemical Engineering",
     "Civil Engineering",
     "Electrical Engineering",
     "Mechanical Engineering",
-    "Software Engineering",
   ];
 
   const getSearchQuery = (e) => {

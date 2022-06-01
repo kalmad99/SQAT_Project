@@ -96,6 +96,7 @@ function Result() {
                     </Typography>
                     <FormControl variant="outlined" className={classes.formControl}>
                         <Select
+                        data-cy="election-dropdown"
                             style={{ background: "white" }}
                             labelId="demo-simple-select-outlined-label"
                             id="demo-simple-select-outlined"
@@ -103,9 +104,10 @@ function Result() {
                             onChange={handleChange}
                             label="Section"
                         >
-                            <MenuItem selected disabled hidden>--Select--</MenuItem>
+                            {/* <MenuItem selected disabled hidden>--Select--</MenuItem> */}
                             {elections.map((election) => (
                                 <MenuItem
+                                data-cy="election-dropdown-item"
                                     key={election._id}
                                     value={election._id}>{election.name}
                                 </MenuItem>
@@ -119,16 +121,16 @@ function Result() {
                             <Grid container spacing={1} justifyContent='space-around' alignItems='center' >
                                 <Box display="flex" flexDirection="column" alignItems='center' spacing={3}>
                                     <Box display="flex" alignItems="flex-end" mb={0.5}>
-                                        <Typography className={classes.my_typogrphy} variant='h3'>2</Typography>
+                                        <Typography data-cy="candidate-rank" className={classes.my_typogrphy} variant='h3'>2</Typography>
                                         <Typography className={classes.my_typogrphy} variant='h6'>nd</Typography>
                                     </Box >
-                                    <Avatar className={classes.large} src="https://randomuser.me/api/portraits/women/81.jpg"></Avatar>
+                                    <Avatar data-cy="candidate-avatar" className={classes.large} src="https://randomuser.me/api/portraits/women/81.jpg"></Avatar>
                                     <Box mt={0.7}>
 
-                                        <Typography className={classes.my_typogrphy}>{election[1].name + " " + election[1].fname}</Typography>
+                                        <Typography data-cy="candidate-name" className={classes.my_typogrphy}>{election[1].name + " " + election[1].fname}</Typography>
                                     </Box>
                                     <Box display="flex" alignItems="center" mb={0.5}>
-                                        <Typography className={classes.my_typogrphy} variant='h3'>{election[1].voteCount}</Typography>
+                                        <Typography data-cy="candidate-votecount" className={classes.my_typogrphy} variant='h3'>{election[1].voteCount}</Typography>
                                         <Typography className={classes.my_typogrphy} variant='h6'>votes</Typography>
                                     </Box >
 

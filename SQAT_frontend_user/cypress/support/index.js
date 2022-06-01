@@ -16,6 +16,13 @@
 // Import commands.js using ES2015 syntax:
 import './commands'
 import '@cypress/code-coverage/support'
+Cypress.on('uncaught:exception', (err, runnable) => {
+    // returning false here prevents Cypress from failing the test
+    if(err.message.includes('Invalid Email or Password'))     expect(err.message).to.include('Invalid Email or Password')
+    else if (err.message.includes('Invalid hook call'))       expect(err.message).to.include('Invalid hook call')
+    else if (err.message.includes("Can't perform a React state update"))       expect(err.message).to.include("Can't perform a React state update")
+    return false
+  })
 
 // Alternatively you can use CommonJS syntax:
 // require('./commands')

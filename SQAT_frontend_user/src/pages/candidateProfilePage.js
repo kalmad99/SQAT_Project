@@ -92,6 +92,7 @@ export default function CandidateProfilePage() {
                             >
                                 <Box item mb={2}>
                                     <Avatar
+                                    data-cy="candidate-avatar"
                                         className='profilePic'
                                         src="https://randomuser.me/api/portraits/women/81.jpg"
                                         style={{
@@ -101,10 +102,10 @@ export default function CandidateProfilePage() {
                                     />
                                 </Box>
                                 <Box>
-                                    <Typography className='fullName' variant="h5">{candidate.name + " " + candidate.fname}</Typography>
+                                    <Typography data-cy="candidate-fullname" className='fullName' variant="h5">{candidate.name + " " + candidate.fname}</Typography>
                                 </Box>
                                 <Box item paddingX={2}>
-                                    <Typography className='bio'>{candidate.bio}</Typography>
+                                    <Typography data-cy="candidate-bio" className='bio'>{candidate.bio}</Typography>
                                 </Box>
                             </Box>
                         </Paper>
@@ -168,7 +169,7 @@ export default function CandidateProfilePage() {
                                     </Typography>
                                 </Grid>
                                 <Grid item xs={9} style={{ marginBottom: "10px" }}>
-                                    <TextField id="outlined-basic" variant="outlined" fullWidth size="small" value={deptTypes[candidate.dept]} />
+                                    <TextField data-cy="candidate-dept" id="outlined-basic" variant="outlined" fullWidth size="small" value={deptTypes[candidate.dept]} />
                                 </Grid>
                                 <Grid item xs={3}>
                                     <Typography>
@@ -176,7 +177,7 @@ export default function CandidateProfilePage() {
                                     </Typography>
                                 </Grid>
                                 <Grid item xs={9} style={{ marginBottom: "10px" }}>
-                                    <TextField id="outlined-basic" variant="outlined" fullWidth size="small" value={candidate.year} />
+                                    <TextField data-cy="candidate-year" id="outlined-basic" variant="outlined" fullWidth size="small" value={candidate.year} />
                                 </Grid>
                                 <Grid item xs={3}>
                                     <Typography>
@@ -184,7 +185,7 @@ export default function CandidateProfilePage() {
                                     </Typography>
                                 </Grid>
                                 <Grid item xs={9} style={{ marginBottom: "10px" }}>
-                                    <TextField id="outlined-basic" variant="outlined" fullWidth size="small" value={candidate.section} />
+                                    <TextField data-cy="candidate-sect" id="outlined-basic" variant="outlined" fullWidth size="small" value={candidate.section} />
                                 </Grid>
                             </Grid>
                         </Paper>

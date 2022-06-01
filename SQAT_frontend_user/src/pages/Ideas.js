@@ -1,9 +1,9 @@
 import { Grid, Typography } from '@material-ui/core'
 import React, { useEffect, useState } from 'react'
 import IdeaDetails from '../components/IdeaDetails'
-import SearchBar from '../components/SearchBar';
-import FilterComponent from '../components/FilterComponent';
-import Suggestion from '../components/Suggestion';
+// import SearchBar from '../components/searchBar';
+// import FilterComponent from '../components/filterComponent';
+import Suggestion from '../components/suggestion';
 import axios, { getToken } from '../Api/axiosConfig'
 
 function Ideas() {
@@ -28,7 +28,7 @@ function Ideas() {
             setIsLoading(false)
         }
         getIdeas()
-    }, [ideas]);
+    }, []);
 
     return (
         <Grid container alignItems='center' justifyContent='center' style={{ height: '100vh' }}>
@@ -49,8 +49,8 @@ function Ideas() {
                             <>
                                 <Grid item xs={12} alignItems='flex-end'>
                                     <Grid container alignItems='center'>
-                                        <FilterComponent />
-                                        <SearchBar />
+                                        {/* <FilterComponent /> */}
+                                        {/* <SearchBar /> */}
                                         {ideas.length === 0 && (
                                             <Typography>No Ideas Yet</Typography>
                                         )}

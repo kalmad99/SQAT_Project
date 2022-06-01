@@ -260,7 +260,7 @@ function VotingUnderway() {
                                     minWidth: "150px"
                                 }}
                             >
-                                <Link onClick={()=>verifyVote(user.email)} underline="none" color="#00D05A">
+                                <Link data-cy="enter-election-button"  onClick={()=>verifyVote(user.email)} underline="none" color="#00D05A">
                                     Enter Election
                                 </Link>
                             </Button>

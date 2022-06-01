@@ -15,8 +15,13 @@ export default function VerifyLoginMagic(props) {
         const response = await loginWithMagicLink(params.email, params.link);
         console.log("response", response);
         if (response.code === 200) {
-          alert(response.message);
-          window.close()
+          // alert(response.message)
+            // .then(() => {
+            // })
+            // .catch(() => {});
+            navigate("/");
+
+          // window.close()
         }
       }
     };

@@ -114,7 +114,7 @@ function Login() {
                 value={formValues.email}
                 onChange={changeHandler}
               />
-              <Typography className={classes.error}>
+              <Typography data-cy="email-error" className={classes.error}>
                 {formErrors.email}
               </Typography>
             </Grid>
@@ -139,6 +139,7 @@ function Login() {
           </Grid>
           <Grid item xs={12} className={classes.submit}>
             <Button
+            data-cy="login-button"
               type="submit"
               fullWidth
               variant="contained"

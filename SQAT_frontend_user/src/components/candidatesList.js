@@ -61,7 +61,7 @@ function CandidatesList(props) {
                         <Box display="flex">
 
                             <Typography variant="h5">{props.name} {props.fname}</Typography>
-                            <Button variant="contained"
+                            <Button data-cy="view-candidate-button" variant="contained"
                                 style={{
                                     paddingInline: '15px',
                                     marginInline: '10px',
@@ -81,7 +81,7 @@ function CandidatesList(props) {
                 </Box>
 
                 <Box display="flex" flexDirection="column" m={5} justifyContent="center">
-                    <Button variant="outlined" style={{
+                    <Button variant="outlined" data-cy="vote-button" style={{
                         borderRadius: 5,
                         color: "#00D05A"
 

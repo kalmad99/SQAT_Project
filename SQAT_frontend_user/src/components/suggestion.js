@@ -66,9 +66,10 @@ function Suggestion() {
             errors.description = "Description is required"
         } else if (values.description.length > 250) {
             errors.description = "Description cant exceed 250 characters"
-        } else if (values.description.length < 50) {
-            errors.description = "Description cant be smaller than 50 characters"
-        }
+        } 
+        // else if (values.description.length < 50) {
+        //     // errors.description = "Description cant be smaller than 50 characters"
+        // }
         return errors
     }
 
@@ -102,6 +103,7 @@ function Suggestion() {
                     <TextField
                         id="standard-textarea"
                         // label="Multiline Placeholder"
+                        data-cy="suggestion-title"
                         placeholder="Write the title here..."
                         multiline
                         fullWidth
@@ -110,12 +112,13 @@ function Suggestion() {
                         value={formValues.title}
                         onChange={changeHandler}
                     />
-                    <Typography variant="caption">{formErrors.title}</Typography>
+                    <Typography data-cy="suggestion-title-error" variant="caption">{formErrors.title}</Typography>
                 </Grid>
                 <Grid item xs={12}>
                     <TextField
                         id="standard-textarea"
                         // label="Multiline Placeholder"
+                        data-cy="suggestion-desc"
                         placeholder="Write your suggestions here..."
                         multiline
                         fullWidth
@@ -124,10 +127,11 @@ function Suggestion() {
                         value={formValues.description}
                         onChange={changeHandler}
                     />
-                    <Typography variant="caption">{formErrors.description}</Typography>
+                    <Typography data-cy="suggestion-desc-error" variant="caption">{formErrors.description}</Typography>
                 </Grid>
                 <Grid item xs={12} >
                     <Button fullWidth variant="contained"
+                    data-cy="suggestion-submit"
                         type='submit'
                         style={{
                             borderRadius: 5,

@@ -8,12 +8,16 @@ var cors = require("cors");
 
 //get all voters
 router.get("/", cors(), async (req, res, next) => {
+  // await Voter.deleteOne({email: "rahelayeled@gmail.com"});
+  // await User.deleteOne({email: "rahelayeled@gmail.com"});
+
   try {
     let query = {};
     if (req.query.query) {
       query.$or = [{ name: { $regex: req.query.query, $options: "i" } }];
     }
     var voters = await Voter.find(query);
+    console.log(voters);
     res.json(voters);
   } catch (e) {
     res.json({

@@ -1,8 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { Avatar, Box, Button, Card, Grid, Typography } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core';
-import CandidatesList from '../components/CandidatesList'
-import Countdown from '../components/countdown';
+import CandidatesList from '../components/candidatesList'
+// import Countdown from '../components/countdown';
 import axios, { getToken } from '../Api/axiosConfig'
 import { loggedin_user } from '../RouteHandler/loggedinuser'
 import { SpinnerCircularFixed } from "spinners-react";
@@ -69,11 +69,12 @@ function VotePage() {
     useEffect(() => {
         const getElection = async () => {
             for (var i = 0; i < elections.length; i++) {
-                for (var j = 0; j < elections[i].voters.length; j++) {
-                    if (isEqual(elections[i].voters[j], user)) {
+                // for (var j = 0; j < elections[i].voters.length; j++) {
+                //     if (isEqual(elections[i].voters[j], user)) {
                         setElection(elections[i])
-                    }
-                }
+                        return;
+                //     }
+                // }
             }
         }
         getElection()
@@ -94,7 +95,7 @@ function VotePage() {
                             <Grid container direction='column' justifyContent='center'>
                                 {/* <Typography variant='h4' className={classes.my_typogrphy}>Time Remaining </Typography> */}
                                 {/* <Typography variant='h4' className={classes.my_typogrphy}>{timerDays} : {timerHours} : {timerMinutes} : {timerSeconds}</Typography> */}
-                                <Countdown />
+                                {/* <Countdown /> */}
                             </Grid>
                         </Grid>
                     </Grid>

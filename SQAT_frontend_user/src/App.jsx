@@ -6,13 +6,13 @@ import HomeScreen from "./pages/HomeScreen";
 import Login from "./pages/Login";
 import Navbar from "./components/Navbar";
 import VotingUnderway from "./pages/VotingUnderway";
-import BeforeVoting from "./pages/BeforeVoting";
+// import BeforeVoting from "./pages/BeforeVoting";
 import Result from "./pages/Result";
 import Ideas from "./pages/Ideas";
 import VotePage from "./pages/VotePage";
-import CandidateProfilePage from "./pages/CandidateProfilePage";
+import CandidateProfilePage from "./pages/candidateProfilePage";
 import PrivateRoute from "./RouteHandler/privateRoute";
-import Countdown from "./components/countdown";
+// import Countdown from "./components/countdown";
 import VerifyLoginMagic from "./pages/VerifyLoginMagic";
 import VerifyVoteMagic from "./pages/VerifyVoteMagic";
 
@@ -29,7 +29,7 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/countdown" element={<Countdown />} />
+        {/* <Route path="/countdown" element={<Countdown />} /> */}
         <Route path="/" element={
           <PrivateRoute>
             <Navbar />
@@ -68,7 +68,7 @@ function App() {
         <Route path="/auth/Before_Voting" element={
           <PrivateRoute>
             <Navbar />
-            <BeforeVoting />
+            {/* <BeforeVoting /> */}
           </PrivateRoute>
         } />
         <Route path="/auth/Result" element={

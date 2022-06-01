@@ -14,10 +14,16 @@ var cors = require("cors");
 router.post("/enter", cors(), async (req, res) => {
   const { email, link } = req.body;
   if (!email)
-    return res.json({ ok: false, message: "Email field is required" });
+    return res.json({
+      status: "failed",
+      code: 404,
+      message: "User not Found",
+    });
   try {
     const user = await User.findOne({ email: email });
-    if (!link) {
+    if(!user) return res.status(400).json({ ok: false, message: "User not found" });
+    else if (!link) {
+      console.log(user);
       console.log("No magic");
       try {
         const user = await User.findOneAndUpdate(
@@ -26,7 +32,7 @@ router.post("/enter", cors(), async (req, res) => {
           { returnDocument: "after" }
         );
         await send_magic_link(email, user.magicLink, "login");
-        res.send({ ok: true, message: "Hit the link in email to sign in" });
+        res.send({ ok: true, message: "Hit the link in email to sign in", email:email, link:user.magicLink });
       } catch {
         res.json({
           status: "failed",

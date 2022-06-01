@@ -16,6 +16,7 @@ const deptTypes = [
 ];
 //get all elections
 router.get("/", cors(), async (req, res, next) => {
+  
   try {
     let query = {};
     if (req.query.query) {
@@ -39,7 +40,16 @@ router.get("/", cors(), async (req, res, next) => {
 // get election detail
 router.get("/:id", cors(), async (req, res, next) => {
   try {
-    var election = await Election.findById(req.params.id);
+   
+    var election = await Election.findById(req.params.id); 
+    const voters = await Voter.find({
+        dept: 0,
+        year: 5,
+        section: 2,
+      });
+    election.voters=voters; 
+    console.log(election);
+
     res.json({
       status: "success",
       code: 200,

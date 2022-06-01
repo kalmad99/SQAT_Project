@@ -76,7 +76,7 @@ function Navbar() {
                                     </Link>
                                 </Grid>
                                 <Grid item xs={4}>
-                                    <Link to="/auth/Voting_underway">
+                                    <Link data-cy="voting-button" to="/auth/Voting_underway">
                                         <Typography variant="h6" className={classes.title}>
                                             Voting
                                         </Typography>
@@ -92,7 +92,7 @@ function Navbar() {
                             </Grid>
                             <Grid item xs={1} sm={3} md={6} lg={6} className={classes.right_bar}
                             >
-                                <Button variant="contained" onClick={onLogout}>Logout</Button>
+                                <Button data-cy="logout-button" variant="contained" onClick={onLogout}>Logout</Button>
                             </Grid>
 
                         </Grid>

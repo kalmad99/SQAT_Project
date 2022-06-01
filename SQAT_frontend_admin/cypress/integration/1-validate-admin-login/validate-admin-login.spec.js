@@ -1,6 +1,6 @@
 /* eslint-disable testing-library/await-async-utils */
 /* eslint-disable cypress/no-unnecessary-waiting */
-describe("add new election", () => {
+describe("admin login", () => {
   it("sign in with valid email and password", () => {
     cy.loginExistingAdmin("admin123@gmail.com", "admin123");
   });
